@@ -1,8 +1,8 @@
 # frigian
 ## Instal
--- composer require swordbros/sw-frigian
+composer require swordbros/sw-frigian
 ## Settins
--- config/shop.php
+config/shop.php
 ```php
 	'client' => [
 		'html' => [
@@ -16,7 +16,7 @@
 	],
 ```
 ## Edit
--- routes\web.php
+routes\web.php
 ```php
 use Illuminate\Support\Facades\Cookie;
 Auth::routes();
