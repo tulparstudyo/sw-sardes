@@ -1,6 +1,7 @@
 # frigian
+## Instal
 -- composer require swordbros/sw-frigian
-# settins
+## settins
 -- config/shop.php
 	'client' => [
 		'html' => [
