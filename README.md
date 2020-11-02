@@ -3,6 +3,7 @@
 -- composer require swordbros/sw-frigian
 ## settins
 -- config/shop.php
+```php
 	'client' => [
 		'html' => [
 			'common' => [
