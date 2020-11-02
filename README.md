@@ -1,7 +1,7 @@
 # frigian
 ## Instal
 -- composer require swordbros/sw-frigian
-## settins
+## Settins
 -- config/shop.php
 ```php
 	'client' => [
@@ -14,3 +14,17 @@
 			],
 		]
 	],
+```
+## Edit
+-- routes\web.php
+```php
+use Illuminate\Support\Facades\Cookie;
+Auth::routes();
+if(class_exists('Request')){
+    $locale = \Cookie::get('locale');
+    \Request::merge(['locale'=> $locale]);
+    $currency = \Cookie::get('currency');
+    \Request::merge(['currency'=> $currency]);
+}
+Route::get('/', '\Aimeos\Shop\Controller\CatalogController@homeAction')->name('aimeos_home');
+```
