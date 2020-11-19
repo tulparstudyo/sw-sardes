@@ -1,3 +1,0 @@
-/*
- * Custom sw-frigian JS
- */
