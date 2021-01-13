@@ -1,4 +1,4 @@
-ben frigian social partilaim
+
 <?php
 
 /**
@@ -141,19 +141,23 @@ $params = array_diff_key( ['d_name' => $this->productItem->getName( 'url' ), 'd_
 
 
 ?>
-<div class="catalog-social">
-<?php foreach( $list as $entry ) : $default = ( isset( $urls[$entry] ) ? $urls[$entry] : null ); ?>
-	<?php if( ( $link = $this->config( 'client/html/catalog/social/url/' . $entry, $default ) ) !== null ) : ?>
-		<a class="social-button social-button-<?= $enc->attr( $entry ); ?>" rel="noopener"
-			href="<?= $enc->attr( sprintf( $link,
+
+
+<div class="product-var__item  align-items-center">
+    <div class="calories-title">Share: </div>
+        <ul class="product-social">
+		<?php foreach( $list as $entry ) : $default = ( isset( $urls[$entry] ) ? $urls[$entry] : null ); ?>
+		<?php if( ( $link = $this->config( 'client/html/catalog/social/url/' . $entry, $default ) ) !== null ) : ?>
+            <li>
+				<a href="<?= $enc->attr( sprintf( $link,
 				$enc->url( $this->url( $detailTarget, $detailController, $detailAction, $params, [], $detailConfig ) ),
 				$enc->url( $this->productItem->getName() ),
 				$enc->url( $this->content( $this->productItem->getRefItems( 'media', 'default', 'default' )->getUrl()->first() ) )
-			) ); ?>"
-			title="<?= $enc->attr( $entry ); ?>"
-			target="_blank"
-		></a>
-
-	<?php endif; ?>
-<?php endforeach; ?>
+				) ); ?>">
+				<i class="fab fa-<?= $enc->attr( $entry ); ?> "title="<?= $enc->attr( $entry ); ?>" target="_blank"></i>
+				</a>
+			</li>
+		<?php endif; ?>
+		<?php endforeach; ?>
+		</ul>
 </div>

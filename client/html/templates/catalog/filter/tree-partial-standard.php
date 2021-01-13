@@ -31,21 +31,36 @@ $action = $this->config( 'client/html/catalog/tree/url/action', 'list' );
 $config = $this->config( 'client/html/catalog/tree/url/config', [] );
 
 ?>
-<?php foreach( $this->get( 'nodes', [] ) as $item_key=>$item ) : ?>
-<?php if( $item->getStatus() > 0 ) : ?>
-<a class="accordion__title collapsed" href="#<?= $enc->attr( $this->url( $item->getTarget() ?: $target, $controller, $action, array_merge( $this->get( 'params', [] ), ['f_name' => $item->getName( 'url' ), 'f_catid' => $item->getId()] ), [], $config ) ); ?>"  data-toggle="collapse" data-target="#item-<?=$item_key?>" aria-expanded="false">
-<?= $enc->html( $item->getName(), $enc::TRUST ); ?><i class="far fa-chevron-down"></i></a>
-<?=count( $item->getChildren() )?>***
-<?php if( count( $item->getChildren() ) > 0 ) : ?>
-<div id="item-<?=$item_key?>" class="collapse">
-    <ul class="accordion__category-list">
-        <li><a href="#">Dresses</a></li>
-        <li><a href="#">Jackets &amp; Coats</a></li>
-        <li><a href="#">Sweaters</a></li>
-        <li><a href="#">Jeans</a></li>
-        <li><a href="#">Blouses &amp; Shirts</a></li>
-    </ul>
-</div>
-<?php endif; ?>
-<?php endif; ?>
-<?php endforeach; ?>
+
+<ul class="sidebar__menu-collapse level-<?= $enc->attr( $this->get( 'level', 0 ) ); ?>  ">
+	<?php foreach( $this->get( 'nodes', [] ) as $item ) : ?>
+		<?php if( $item->getStatus() > 0 ) : ?>
+
+			<li class="sidebar__menu-collapse-list cat-item catid-<?= $enc->attr( $item->getId()
+				. ( $item->hasChildren() ? ' withchild' : ' nochild' )
+				. ( $this->get( 'path', map() )->getId()->last() == $item->getId() ? ' active' : '' )
+				. ' catcode-' . $item->getCode() . ' ' . $item->getConfigValue( 'css-class' ) ); ?>"
+				data-id="<?= $item->getId(); ?>" >
+               
+				<a class="accordion__title cat-item" href="<?= $enc->attr( $this->url( $item->getTarget() ?: $target, $controller, $action, array_merge( $this->get( 'params', [] ), ['f_name' => $item->getName( 'url' ), 'f_catid' => $item->getId()] ), [], $config ) ); ?>"><!--
+					-->
+				<span class="cat-name"><?= $enc->html( $item->getName(), $enc::TRUST ); ?></span><i class="far fa-chevron-down"></i></a>
+			
+				<?php  if($item->hasChildren()){ ?>
+                    <ul class="dropdown kenne-dropdown">
+                             
+                        <?php foreach($item->getChildren() as $itemk ){?>
+                              <li>          
+                              <a href="<?= $enc->attr( $this->url( $itemk ->getTarget() ?: $target, $controller, $action, array_merge( $this->get( 'params', [] ), ['f_name' => $itemk ->getName( 'url' ), 'f_catid' => $itemk ->getId()] ), [], $config ) ); ?>">
+                    	       <?=$itemk->getName();?></a> 
+                        <?php } ?>
+                
+                    </ul>     
+                    <?php } ?>
+			</li>
+		<?php endif; ?>
+	<?php endforeach; ?>
+</ul>
+
+
+

@@ -8,6 +8,21 @@ $detailAction = $this->config( 'client/html/catalog/detail/url/action', 'detail'
 $detailConfig = $this->config( 'client/html/catalog/detail/url/config', [] );
 $detailFilter = array_flip( $this->config( 'client/html/catalog/detail/url/filter', ['d_prodid'] ) );
 
+$watchTarget = $this->config( 'client/html/account/watch/url/target' );
+$watchController = $this->config( 'client/html/account/watch/url/controller', 'account' );
+$watchAction = $this->config( 'client/html/account/watch/url/action', 'watch' );
+$watchConfig = $this->config( 'client/html/account/watch/url/config', [] );
+
+$pinTarget = $this->config( 'client/html/catalog/session/pinned/url/target' );
+$pinController = $this->config( 'client/html/catalog/session/pinned/url/controller', 'catalog' );
+$pinAction = $this->config( 'client/html/catalog/session/pinned/url/action', 'detail' );
+$pinConfig = $this->config( 'client/html/catalog/session/pinned/url/config', [] );
+
+$favTarget = $this->config( 'client/html/account/favorite/url/target' );
+$favController = $this->config( 'client/html/account/favorite/url/controller', 'account' );
+$favAction = $this->config( 'client/html/account/favorite/url/action', 'favorite' );
+$favConfig = $this->config( 'client/html/account/favorite/url/config', [] );
+
 $productItem = $this->get('product');
 
 if($productItem ){
@@ -26,11 +41,38 @@ if($productItem ){
     </a><!-- End Product Image --> 
     
     <!-- Start Product Action Link-->
+    <?php	$urls = array(
+	'pin' => $this->url( $pinTarget, $pinController, $pinAction, ['pin_action' => 'add', 'pin_id' => $productItem->getId(), 'd_name' => $productItem->getName( 'url' )], $pinConfig ),
+
+'watch' => $this->url( $watchTarget, $watchController, $watchAction, ['wat_action' => 'add', 'wat_id' => $productItem->getId(), 'd_name' => $productItem->getName( 'url' )], $watchConfig ),
+'favorite' => $this->url( $favTarget, $favController, $favAction, ['fav_action' => 'add', 'fav_id' => $productItem->getId(), 'd_name' => $productItem->getName( 'url' )], $favConfig ),
+);
+?>
     <ul class="product__action--link pos-absolute">
-      <li><a href="#modalAddCart" data-toggle="modal"><i class="icon-shopping-cart"></i></a></li>
-      <li><a href="compare.html"><i class="icon-sliders"></i></a></li>
-      <li><a href="wishlist.html"><i class="icon-heart"></i></a></li>
-      <li><a href="#modalQuickView" data-toggle="modal"><i class="icon-eye"></i></a></li>
+    <li><a href="compare.html"><i class="icon-sliders"></i></a></li>
+    <?php 
+
+
+
+	$icons = array('pin'=>'fa-map-pin','watch'=>'fa-eye','favorite'=>'fa-heart');
+
+
+
+	 foreach( $this->config( 'client/html/catalog/actions/list', [ 'pin', 'favorite', 'watch'] ) as $entry ) : ?>
+
+		<?php if( isset( $urls[$entry] ) ) : ?>
+
+			<li><a class="btn btn--round btn--round-size-small btn--green btn--green-hover-black" href="<?= $enc->attr( $urls[$entry] );  ?> " title="<?= $enc->attr( $this->translate( 'client/code', $entry ) ); ?>" data-toggle="tooltip" target="_blank" title="" data-original-title="<?= $enc->attr( $entry ); ?>">
+
+                   <i class="fa <?= @$icons[$enc->attr( $entry )]; ?>"></i>
+
+                </a>
+
+			</li>
+
+		<?php endif; ?>
+	  <?php endforeach; ?>
+     
     </ul>
     <!-- End Product Action Link --> 
   </div>

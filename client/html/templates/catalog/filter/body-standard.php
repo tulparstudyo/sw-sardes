@@ -36,7 +36,6 @@ $optConfig = $this->config( 'client/jsonapi/url/config', [] );
 	<?php endif; ?>
 
 	<nav>
-		<h1><?= $enc->html( $this->translate( 'client', 'Filter' ), $enc::TRUST ); ?></h1>
 		<form class="row" method="GET" action="<?= $enc->attr( $this->url( $listTarget, $listController, $listAction, $this->get( 'filterParams', [] ), $listConfig ) ); ?>">
 
 			<?= $this->block()->get( 'catalog/filter/tree' ); ?>

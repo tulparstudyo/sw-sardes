@@ -3,7 +3,7 @@ $nav = $this->get('nav', []);
 ?>
 <!--  Start Large Header Section   -->
 <div class="header d-none d-lg-block">
-            <!-- Start Header Top area -->
+            <!-- Start Header Top area --> 
             <div class="header__top">
                 <div class="container">
                     <div class="row">
@@ -29,12 +29,12 @@ $nav = $this->get('nav', []);
                         <div class="col-xl-3 col-lg-3">
                             <div class="header-menu-vertical pos-relative">
                                 <h4 class="menu-title link--icon-left"><i class="far fa-align-left"></i><?=$this->translate('client', 'Categories')?></h4>
-<?=$this->partial( $this->config( 'client/html/common/partials/category_nav', 'common/partials/category_nav-standard' ),
-			array(
-				'nav' => $nav,
-			)
-		);?>
-                            </div>
+                                <?=$this->partial( $this->config( 'client/html/common/partials/category_nav', 'common/partials/category_nav-standard' ),
+			                        array(
+				                    'nav' => $nav,
+			                        )
+		                            );?>
+                                </div>
                         </div>
                         <div class="col-xl-7 col-lg-6">
                             <form class="header-search" action="#" method="post">
@@ -73,10 +73,16 @@ $nav = $this->get('nav', []);
                         <ul class="header__mobile--rightside header__user-action-icon  d-flex align-items-center justify-content-end"> 
                             <!-- Start Header Add Cart Box -->
                             <li>
-                                <a href="#offcanvas-add-cart__box" class="offcanvas-toggle">
-                                    <i class="icon-shopping-cart"></i>
-                                    <span class="wishlist-item-count pos-absolute">3</span>
-                                </a>
+
+                            <div class="aimeos">
+
+                                <a href="#offcanvas-add-cart__box" class="offcanvas-toggle basket-mini-main" >
+                                <i class="icon-shopping-cart"></i>
+                                <span class="wishlist-item-count pos-absolute-main quantity">0</span>
+                                    </a>
+
+                            </div>
+
                             </li> <!-- End Header Add Cart Box -->
                             <li><a href="#offcanvas-mobile-menu" class="offcanvas-toggle"><i class="far fa-bars"></i></a></li>
 

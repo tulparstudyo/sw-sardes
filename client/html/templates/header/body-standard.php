@@ -46,26 +46,25 @@ $nav = $this->get('nav', []);
 						<!--<a  title="<?= get_username() ?>"><small style="font-size:10px;"><?= get_username() ?></small></a>-->
 						<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" style="padding: 0px" href="<?=route('login')?>"><i class="icon-users"></i></a>
 						<ul class="dropdown-menu" role="menu">
-							<li><a class="nav-link" href="<?= route('aimeos_shop_account',['site'=>Route::current()->parameter('site','default'),'locale'=>Route::current()->parameter('locale','en'),'currency'=>Route::current()->parameter('currency','EUR')]) ?>" title="<?=$this->translate('client', 'Profile')?>"><?=$this->translate('client', 'Profile')?></a></li>
+							<li><a class="nav-link" href="<?= route('aimeos_shop_account') ?>" title="<?=$this->translate('client', 'Profile')?>"><?=$this->translate('client', 'Profile')?></a></li>
 							<li><form id="logout" action="/logout" method="POST"><?= csrf_field()?></form><a class="nav-link" href="javascript: document.getElementById('logout').submit();"><?=$this->translate('client', 'Logout')?></a></li>
 						</ul>
 					</li>
 				<?php } ?>
 				<!-- End Header Wishlist Box -->
-                                <!-- Start Header Wishlist Box -->
-                                <!--<li>
-                                    <a href="wishlist.html">
-                                        <i class="icon-heart"></i>
-                                        <span class="item-count pos-absolute">0</span>
-                                    </a>
-                                </li> -->
-								<!-- End Header Wishlist Box -->
-                                <!-- Start Header Add Cart Box -->
+
+                            <!-- Start Header Add Cart Box -->
                                 <li>
-                                    <a href="#offcanvas-add-cart__box" class="offcanvas-toggle">
+ 
+                                <div class="aimeos">
+
+                                    <a href="#offcanvas-add-cart__box" class="offcanvas-toggle basket-mini-main" >
                                         <i class="icon-shopping-cart"></i>
-                                        <span class="wishlist-item-count pos-absolute">0</span>
+                                        <span class="wishlist-item-count pos-absolute-main quantity">0</span>
                                     </a>
+                                    
+                                </div>
+                                  
                                 </li> <!-- End Header Add Cart Box -->
                             </ul> 
                         </div>
@@ -92,6 +91,8 @@ $nav = $this->get('nav', []);
 				'nav' => $nav,
 			)
 		);?>
+
+
                         </div>
                         <div class="col-xl-2 col-lg-3" style="padding-left: 0; padding-right: 0;">
                             <div class="header-phone text-right"><span><?= $this->translate( 'client', 'Call Us:' ); echo frigian_option('store_phone');?> </span></div>
@@ -104,6 +105,8 @@ $nav = $this->get('nav', []);
         </div> 
 <!--  End Large Header Section  -->
 
+
+
 <!--  Start Mobile Header Section   -->
         <div class="header__mobile mobile-header--1 d-block d-lg-none p-tb-20">
             <div class="container-fluid">
@@ -112,7 +115,7 @@ $nav = $this->get('nav', []);
                         <ul class="header__mobile--leftside d-flex align-items-center justify-content-start">
                             <li>
                                 <div class="header__mobile-logo">
-                                    <a href="index.html" class="header__mobile-logo-link">
+                                    <a href="<?=url('/')?>" class="header__mobile-logo-link">
                                         <img src="<?=frigian_url('assets/img/logo/logo.png')?>" alt="" class="header__mobile-logo-img">
                                     </a>
                                 </div>
@@ -122,10 +125,12 @@ $nav = $this->get('nav', []);
                         <ul class="header__mobile--rightside header__user-action-icon  d-flex align-items-center justify-content-end"> 
                             <!-- Start Header Add Cart Box -->
                             <li>
-                                <a href="#offcanvas-add-cart__box" class="offcanvas-toggle">
-                                    <i class="icon-shopping-cart"></i>
-                                    <span class="wishlist-item-count pos-absolute">3</span>
-                                </a>
+                            <div class="aimeos">
+<a href="#offcanvas-add-cart__box" class="offcanvas-toggle basket-mini-main" >
+            <i class="icon-shopping-cart"></i>
+            <span class="wishlist-item-count pos-absolute-main quantity">0</span>
+        </a>
+        </div>
                             </li> <!-- End Header Add Cart Box -->
                             <li><a href="#offcanvas-mobile-menu" class="offcanvas-toggle"><i class="far fa-bars"></i></a></li>
 
@@ -152,3 +157,5 @@ $nav = $this->get('nav', []);
 				'nav' => $nav,
 			)
 		);?>
+                                   
+   

@@ -91,9 +91,40 @@ $products = $this->get( 'itemsProductItems', map() );
 
                 <!-- Start Rightside - Product Type View -->
                 <div class="col-lg-9">
-                    <div class="img-responsive">
-                        <img src="assets/img/banner/size-wide/banner-shop-1-img-1-wide.jpg" alt="">
-                    </div>
+
+                
+                <?php if( isset( $this->listErrorList ) ) : ?>
+
+<ul class="error-list">
+
+    <?php foreach( (array) $this->listErrorList as $errmsg ) : ?>
+
+        <li class="error-item"><?= $enc->html( $errmsg ); ?></li>
+
+    <?php endforeach; ?>
+
+</ul>
+
+<?php endif; ?>
+
+
+
+
+
+
+
+    
+<?= $this->block()->get( 'catalog/lists/promo' ); ?>
+
+
+<?php if( $this->get( 'listProductTotal', 0 ) > 0 ) : ?>
+    <?php /*<div class="catalog-list-type">
+			<a class="type-item type-grid" title="<?= $enc->attr( $this->translate( 'client', 'Grid view' ) ) ?>"
+				href="<?= $enc->attr( $this->url( $target, $cntl, $action, array( 'l_type' => 'grid' ) + $this->get( 'listParams', [] ), [], $config ) ); ?>"></a>
+			<a class="type-item type-list" title="<?= $enc->attr( $this->translate( 'client', 'List view' ) ) ?>"
+				href="<?= $enc->attr( $this->url( $target, $cntl, $action, array( 'l_type' => 'list' ) + $this->get( 'listParams', [] ), [], $config ) ); ?>"></a>
+		</div>*/?>
+
                     <!-- ::::::  Start Sort Box Section  ::::::  -->
                     <div class="sort-box m-tb-40">
                         <!-- Start Sort Left Side -->
@@ -106,25 +137,63 @@ $products = $this->get( 'itemsProductItems', map() );
                             </div>
                         </div> <!-- Start Sort Left Side -->
 
-                        <div class="sort-box-item d-flex align-items-center flex-warp">
-                            <span>Sort By:</span>
-                            <div class="sort-box__option">
-                                <label class="select-sort__arrow">
-                                    <select name="select-sort" class="select-sort">
-                                        <option value="1">Relevance</option>
-                                        <option value="2">Name, A to Z</option>
-                                        <option value="3"> Name, Z to A </option>
-                                        <option value="4"> Price, low to high</option>
-                                        <option value="5">Price, high to low</option>
-                                    </select>
-                                </label>
-                            </div>
-                        </div>
+                        <?php if( $this->get( 'listProductTotal', 0 ) > 0 && $this->config( 'client/html/catalog/lists/pagination/enable', true ) ) : ?>
+						<?= $this->partial(
+							$this->config( 'client/html/catalog/lists/partials/pagination', 'catalog/lists/pagination-standard' ),
+							array(
+								'params' => $this->get( 'listParams', [] ),
+								'size' => $this->get( 'listPageSize', 48 ),
+								'total' => $this->get( 'listProductTotal', 0 ),
+								'current' => $this->get( 'listPageCurr', 0 ),
+								'prev' => $this->get( 'listPagePrev', 0 ),
+								'next' => $this->get( 'listPageNext', 0 ),
+								'last' => $this->get( 'listPageLast', 0 ),
+							)
+						);
+						?>
+						<?php endif ?>
 
-                        <div class="sort-box-item">
-                            <span>Showing 1 - 9 of 12 result</span>
-                        </div>
+    <div class="product-page_count">
+
+<span><?=$this->translate( 'client', 'Found' )?> <?=$this->get( 'listProductTotal', 0 )?> <?=$this->translate( 'client', 'results' )?></span>
+
+</div>
+
+<?php endif; ?>
+
+
+    <?php if( ( $searchText = $this->param( 'f_search', null ) ) != null ) : ?>
+		<div class="list-search">
+
+			<?php if( ( $total = $this->get( 'listProductTotal', 0 ) ) > 0 ) : ?>
+				<?= $enc->html( sprintf(
+					$this->translate(
+						'client',
+						'Search result for <span class="searchstring">"%1$s"</span> (%2$d article)',
+						'Search result for <span class="searchstring">"%1$s"</span> (%2$d articles)',
+						$total
+					),
+					$searchText,
+					$total
+				), $enc::TRUST ); ?>
+			<?php else : ?>
+				<?= $enc->html( sprintf(
+					$this->translate(
+						'client',
+						'No articles found for <span class="searchstring">"%1$s"</span>. Please try again with a different keyword.'
+					),
+					$searchText
+				), $enc::TRUST ); ?>
+			<?php endif; ?>
+
+		</div>
+	<?php endif; ?>
+
+                       
                     </div> <!-- ::::::  Start Sort Box Section  ::::::  -->
+
+
+                    
 	<?= $this->block()->get( 'catalog/lists/items' ); ?>
 
                     <div class="page-pagination">
