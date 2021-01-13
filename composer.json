@@ -1,6 +1,6 @@
 {
-	"name": "tulparstudyo/sw-frigian",
-	"description": "Aimeos sw-frigian extension",
+	"name": "tulparstudyo/sw-sardes",
+	"description": "Aimeos sw-sardes extension",
 	"keywords": ["aimeos", "extension"],
 	"type": "aimeos-extension",
 	"license": "LGPL-3.0",
