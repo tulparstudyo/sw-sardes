@@ -19,6 +19,7 @@
 "scripts": {
     "post-update-cmd": [
         ...
+        "Swordbros\\Sardes::composerUpdate",
         "@php artisan migrate --path=ext/sw-sardes/lib/custom/setup/options"
     ]
 }
