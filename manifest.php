@@ -1,7 +1,7 @@
 <?php
 
 return array(
-	'name' => 'sw-frigian',
+	'name' => 'sw-sardes',
 	'depends' => array(
 		'aimeos-core',
 		'ai-admin-jqadm',
