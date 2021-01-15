@@ -9,15 +9,14 @@
 
 ```
 ```
-		"files": [
-      ...
-			"ext/sw-sardes/helper/theme_helper.php"
-		]
+    "files": [
+        ...
+        "ext/sw-sardes/helper/theme_helper.php"
+    ]
 ```
 ```
     "post-update-cmd": [
-       ...
-       "@php artisan migrate --path=ext/sw-sardes/lib/custom/setup/options"
+        ...
+        "@php artisan migrate --path=ext/sw-sardes/lib/custom/setup/options"
     ]
-
 ```
