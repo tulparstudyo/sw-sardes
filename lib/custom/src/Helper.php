@@ -3,22 +3,22 @@ namespace Swordbros;
 class Sardes {
 
     public static function composerUpdate() {
-        /*
-        $oldfile = resource_path() . '/views/app.blade.php';
-        $sardesfile = dirname( __FILE__ ) . '/../view/app.blade.php';
-		if(file_exists($sardesfile)){
-			if ( file_exists( $oldfile . '.bak' ) ) {
-				echo "Update the views.blade.php! app.blade.php.bak is already exists .\r\n";
-			} else {
-				copy( $oldfile, $oldfile . '.bak' );
-				copy( $sardesfile, $oldfile );
-				echo "Update the views.blade.php file for swordbros sardes theme. Original file backed up\r\n";
-			}
-		} else {
-			echo "$sardesfile not found \r\n";
-		}
-        */
+
+// rotes files
+        echo "::: ROUTES SETUP :::\r\n";
+        $dst = base_path() . '/routes';
+        if(!is_dir($dst)){
+            @mkdir($dst); 
+        }
+        $src = dirname( __FILE__ ) . '/../view/routes';
+        if(is_dir($src)){
+            self::recurse_copy($src, $dst);
+            echo " - Required files copied to $dst \r\n";
+        } else{
+            echo " ! $src not found \r\n";
+        }   
 // balde files
+        echo "::: BLADE FILES SETUP :::\r\n";
         $dst = resource_path() . '/views';
         if(!is_dir($dst)){
             @mkdir($dst); 
@@ -26,11 +26,12 @@ class Sardes {
         $src = dirname( __FILE__ ) . '/../view/resources';
         if(is_dir($src)){
             self::recurse_copy($src, $dst);
-            echo "$src copied to $dst \r\n";
+            echo " - Required files copied to $dst \r\n";
         } else{
-            echo "$src not found \r\n";
+            echo " ! $src not found \r\n";
         }   
 // theme files
+        echo "::: PUBLIC FILES SETUP :::\r\n";
         $dst = public_path() . '/packages/swordbros';
         if(!is_dir($dst)){
             @mkdir($dst); 
@@ -41,9 +42,9 @@ class Sardes {
         } else{
             if(is_dir($src)){
                 self::recurse_copy($src, $dst);
-                echo "$src copied to $dst \r\n";
+                echo " - Required files copied to $dst \r\n";
             } else{
-                echo "$src not found \r\n";
+                echo " ! $src not found \r\n";
             }
         }
     }
