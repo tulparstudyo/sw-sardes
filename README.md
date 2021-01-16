@@ -1,6 +1,7 @@
 # sardes
 
 # Setup
+## composer.json
 ```
 "require": {
     ...
@@ -23,4 +24,17 @@
         "@php artisan migrate --path=ext/sw-sardes/lib/custom/setup/options"
     ]
 }
+```
+## config/shop.php
+```
+'client' => [
+    ...
+    'common' => [
+        'baseurl' =>  'packages/swordbros/shop/themes/sardes/' ,
+        'template' => [
+            'baseurl' => 'packages/swordbros/shop/themes/sardes',
+        ],
+    ]
+],
+
 ```
