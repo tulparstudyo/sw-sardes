@@ -10,7 +10,7 @@
 		"php": "~7.1",
 		"composer/installers": "^1.0"
 	},
-	"autoload": {
+	"autoload": {sadece vkontakte için mi?
 		"psr-4": {
 			"Aimeos\\MW\\": "lib/mwlib/src/MW/",
 			"Aimeos\\MShop\\": "lib/mshoplib/src/MShop/",
