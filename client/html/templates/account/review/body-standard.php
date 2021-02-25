@@ -9,7 +9,7 @@ $enc = $this->encoder();
 
 
 ?>
-<section class="aimeos account-review account-wrapper" data-jsonurl="<?= $enc->attr( $this->link( 'client/jsonapi/url', [], [] ) ); ?>">
+<section class="aimeos account-review" data-jsonurl="<?= $enc->attr( $this->link( 'client/jsonapi/url', [], [] ) ); ?>">
 
 	<?php if( ( $errors = $this->get( 'reviewErrorList', [] ) ) !== [] ) : ?>
 		<ul class="error-list">
@@ -27,7 +27,7 @@ $enc = $this->encoder();
 		</ul>
 	<?php endif; ?>
 
-	<h4 class="account-title"><?= $this->translate( 'client', 'Reviews' ) ?></h4>
+	<h1 class="header"><?= $this->translate( 'client', 'Reviews' ) ?></h1>
 
 	<?= $this->get( 'reviewBody' ); ?>
 

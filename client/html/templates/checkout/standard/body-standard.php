@@ -26,8 +26,8 @@ $optConfig = $this->config( 'client/jsonapi/url/config', [] );
 
 ?>
 <section class="aimeos checkout-standard" data-jsonurl="<?= $enc->attr( $this->url( $optTarget, $optCntl, $optAction, [], [], $optConfig ) ); ?>">
-<div class="container">
-<nav>
+
+	<nav>
 		<ol class="steps">
 
 			<li class="step basket active">
@@ -60,7 +60,6 @@ $optConfig = $this->config( 'client/jsonapi/url/config', [] );
 	</nav>
 
 
-
 	<?php if( isset( $this->standardErrorList ) ) : ?>
 		<ul class="error-list">
 			<?php foreach( (array) $this->standardErrorList as $errmsg ) : ?>
@@ -70,30 +69,9 @@ $optConfig = $this->config( 'client/jsonapi/url/config', [] );
 	<?php endif; ?>
 
 
-	<form id="form-checkout" method="<?= $enc->attr( $this->get( 'standardMethod', 'POST' ) ); ?>" action="<?= $enc->attr( $this->get( 'standardUrlNext' ) ); ?>">
+	<form method="<?= $enc->attr( $this->get( 'standardMethod', 'POST' ) ); ?>" action="<?= $enc->attr( $this->get( 'standardUrlNext' ) ); ?>">
 		<?= $this->csrf()->formfield(); ?>
 		<?= $this->get( 'standardBody' ); ?>
 	</form>
-
-<script>
-    $("body").on("click",".checkout-standard-delivery .shipping-select",function(e){
-        $.ajax({
-            type:"POST",
-            url:$('#form-checkout').attr("action"),
-            data:$('#form-checkout').serialize(),
-            success: function(response){
-                var doc = document.createElement("html");
-                doc.innerHTML = response;
-                var basket = $(".detail-checkout", doc);
-                if(basket.length){
-                   $('.detail-checkout').html(basket); 
-                } else {
-                    var error = $(".error-list", doc).text();
-                    alert(error);
-                }
-            }
-        });
-    })
-</script>
-</div>
+  
 </section>

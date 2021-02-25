@@ -38,6 +38,73 @@ if(!function_exists('sardes_top_products')){
 		return($products);
 	}
 }
+
+if(!function_exists('sardes_socialbar')){
+	function sardes_socialbar($class=''){
+
+	
+	}
+}
+
+
+if(!function_exists('sardes_productStars')){
+	function sardes_productStars($id, $input_name=''){
+
+		if(!empty($id)){
+	
+			$query = \DB::table('mshop_product')->select('id', 'review_count', 'rating')->where('id', $id)->get()->first();
+	
+			if($query ){
+	
+				return sardes_stars($query->rating, $input_name);
+	
+			}
+	
+		}
+	
+	}
+}
+
+
+if(!function_exists('sardes_stars')){
+	 function sardes_stars($rating=0, $input_name=''){
+
+		$id = rand();
+	
+		if($input_name){
+	
+			$disabled = '';
+	
+		} else{
+	
+			$disabled = ' disabled="disabled" readonly="readonly" ';
+	
+		}
+	
+		return '<div class="rating-box"><ul>
+	
+	<li'.($rating>=1?'':'class="silver-color"').'><i class="ion-ios-star'.($rating>=1?'':'-outline').'"></i></li>
+	
+	<li'.($rating>=2?'':'class="silver-color"').'><i class="ion-ios-star'.($rating>=2?'':'-outline').'"></i></li>
+	
+	<li'.($rating>=3?'':'class="silver-color"').'><i class="ion-ios-star'.($rating>=3?'':'-outline').'"></i></li>
+	
+	<li'.($rating>=4?'':'class="silver-color"').'><i class="ion-ios-star'.($rating>=4?'':'-outline').'"></i></li>
+	
+	<li'.($rating>=5?'':'class="silver-color"').'><i class="ion-ios-star'.($rating>=5?'':'-outline').'"></i></li>
+	
+	</ul></div>';
+	
+	}
+}
+
+
+
+
+
+
+
+
 if(!function_exists('sardes_new_products')){
 	function sardes_new_products(){
 		$ctx = \Aimeos\Shop\Facades\Shop::get('swordbros/sardes/widget')->getContext();
@@ -53,7 +120,7 @@ if(!function_exists('sardes_options')){
 	function sardes_options(){
 		$options = [];
 		$ctx = \Aimeos\Shop\Facades\Shop::get('swordbros/sardes/widget')->getContext();
-		$ctl = new \Aimeos\Admin\JQAdm\Swordbros\Sardes\Standard($ctx);
+		$ctl = new \Aimeos\Admin\JQAdm\Swordbros\sardes\Standard($ctx);
 		if($ctl){
 			$locale = $ctx->getLocale();
 			$options['selectLanguageId'] = $locale->getLanguageId();
@@ -81,7 +148,7 @@ if(!function_exists('is_selected')){
 
 		if(isset($data[$key]) ){
 			if($data[$key]==$value){
-				return "selected checked";
+				return "selected checked"; 
 			} 
 		}
 		return "";
@@ -99,6 +166,31 @@ if(!function_exists('is_checked')){
 		return "";
 	}
 }
+
+
+if(!function_exists('sardes_top_categories')){
+	function sardes_top_categories(){
+		$data =  \Aimeos\Shop\Facades\Catalog::uses(['text', 'media'])
+		->getTree();
+
+		if($data->hasChildren()){
+
+		echo '<ul class="">';
+
+		foreach ($data->getChildren() as $main_category) {
+
+		echo '<li class="nav-item"><a href="'.route('aimeos_shop_list',array_merge( ['locale'=> \Route::current()->parameter('locale','ru'), 'currency'=> \Route::current()->parameter('currency','RUB')], ['f_name' => $main_category->getName( 'url' ), 'f_catid' => $main_category->getId()] )).'" class="nav-link">'.$main_category->getName().'</a></li>';
+
+		} 
+
+		echo '</ul>';
+
+		}
+	}
+}
+
+
+
 
 if(!function_exists('get_option_value')){
 	function get_option_value($data, $key, $lang=false){

@@ -325,6 +325,25 @@ class Standard
 		$cntl = \Aimeos\Controller\Frontend::create( $context, 'customer' );
 		$view->profileCustomerItem = $cntl->uses( $domains )->get();
 
+		$startid = 1;//$view->config( 'client/html/catalog/filter/tree/startid' );
+
+		$cntl = \Aimeos\Controller\Frontend::create( $this->getContext(), 'catalog' )
+			->uses( $domains )->root( $startid );
+
+		if( ( $currentid = $view->param( 'f_catid' ) ) !== null ) {
+			$catItems = $cntl->getPath( $currentid );
+			$catIds = $catItems->keys()->toArray();
+		} else {
+			$catItems = map();
+			$catIds = [$startid];
+		}
+
+		$view->categories =  \Aimeos\Shop\Facades\Catalog::uses(['text', 'media'])->getTree();
+		$view->treeCatalogPath = $catItems;
+		$view->treeCatalogTree = $cntl->visible( [1] )->getTree();
+		$view->treeFilterParams = $this->getClientParams( $view->param(), ['f'] );
+
+
 		return parent::addData( $view, $tags, $expire );
 	}
 }

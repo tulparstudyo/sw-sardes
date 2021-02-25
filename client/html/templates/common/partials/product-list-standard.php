@@ -29,7 +29,7 @@ if($productItem ){
 	$params = array_diff_key( ['d_name' => $productItem->getName( 'url' ), 'd_prodid' => $productItem->getId(), 'd_pos' => $position !== null ? $position++ : ''], $detailFilter ); 
 ?>
 <!-- Start Single Default Product -->
-                    <div class="product__box product__box--list"> 
+                    <div class="product__box product__box--list***"> 
                         <!-- Start Product Image -->
                         <div class="product__img-box  pos-relative text-center"> <a href="<?= $enc->attr( $this->url( ( $productItem->getTarget() ?: $detailTarget ), $detailController, $detailAction, $params, [], $detailConfig ) ); ?>" class="product__img--link"> 
 	  <?php if( ( $mediaItem = $productItem->getRefItems( 'media', 'default', 'default' )->first() ) !== null ) : ?>

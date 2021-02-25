@@ -41,7 +41,7 @@ $enc = $this->encoder();
 
 
 ?>
-<ul class="form-list form-horizontal">
+<ul class="form-list form-horizontal" style="display: none">
 
 	<?php foreach( $this->get( 'attributes', [] ) as $key => $item ) : ?>
 
@@ -69,7 +69,7 @@ $enc = $this->encoder();
 
 					<div class="form-item-value col-md-7">
 						<?php foreach( (array) $item->getDefault() as $code => $val ) : ?>
-							<input class=" shipping-select" type="radio" id="<?= $enc->attr( $this->type . '-' . $key . '-' . $code ); ?>"
+							<input class="form-control" type="radio" id="<?= $enc->attr( $this->type . '-' . $key . '-' . $code ); ?>"
 								name="<?= $enc->attr( $this->formparam( ['c_' . $this->type, $this->id, $key] ) ); ?>" value="<?= $enc->attr( $code ) ?>"
 								<?= $this->param( 'c_' . $this->type . '/' . $this->id . '/' . $key, $item->value ?? null ) == $code ? 'checked="checked"' : '' ?>
 							/>
@@ -97,36 +97,13 @@ $enc = $this->encoder();
 						/>
 					</div>
 
-				<?php break; case 'date': ?>
+				<?php break; case 'date': case 'datetime': case 'time': ?>
 
 					<div class="col-md-7">
 						<input class="form-control col-md-7" type="<?= $item->getType(); ?>"
 							id="<?= $enc->attr( $this->type . '-' . $key ); ?>" class="form-item-value"
 							name="<?= $enc->attr( $this->formparam( array( 'c_' . $this->type, $this->id, $key ) ) ); ?>"
 							value="<?= $enc->attr( $this->param( 'c_' . $this->type . '/' . $this->id . '/' . $key, $item->value ?? null ) ); ?>"
-							placeholder="<?= $enc->attr( $this->translate( 'client', 'YYYY-MM-DD' ) ) ?>"
-						/>
-					</div>
-
-				<?php break; case 'datetime': ?>
-
-					<div class="col-md-7">
-						<input class="form-control col-md-7" type="<?= $item->getType(); ?>"
-							id="<?= $enc->attr( $this->type . '-' . $key ); ?>" class="form-item-value"
-							name="<?= $enc->attr( $this->formparam( array( 'c_' . $this->type, $this->id, $key ) ) ); ?>"
-							value="<?= $enc->attr( $this->param( 'c_' . $this->type . '/' . $this->id . '/' . $key, $item->value ?? null ) ); ?>"
-							placeholder="<?= $enc->attr( $this->translate( 'client', 'YYYY-MM-DD HH:mm' ) ) ?>"
-						/>
-					</div>
-
-				<?php break; case 'time': ?>
-
-					<div class="col-md-7">
-						<input class="form-control col-md-7" type="<?= $item->getType(); ?>"
-							id="<?= $enc->attr( $this->type . '-' . $key ); ?>" class="form-item-value"
-							name="<?= $enc->attr( $this->formparam( array( 'c_' . $this->type, $this->id, $key ) ) ); ?>"
-							value="<?= $enc->attr( $this->param( 'c_' . $this->type . '/' . $this->id . '/' . $key, $item->value ?? null ) ); ?>"
-							placeholder="<?= $enc->attr( $this->translate( 'client', 'HH:mm' ) ) ?>"
 						/>
 					</div>
 

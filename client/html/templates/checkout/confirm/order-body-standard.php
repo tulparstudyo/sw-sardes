@@ -177,10 +177,6 @@ $enc = $this->encoder();
 
 </div>
 
-<div class="confirm-cont-shop">
-<a class="kenne_cont_btn btn btn--box btn--small btn--radius btn--green btn--black-hover-green btn--uppercase font--semi-bold" href="/">
-Continue Shopping 
 
-</a>   </div>
 <?php $this->block()->stop(); ?>
 <?= $this->block()->get( 'checkout/confirm/order' ); ?>

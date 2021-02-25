@@ -10,20 +10,17 @@
  */
 
 
-$prices = map();
+$prices = [];
 $enc = $this->encoder();
 $priceItems = map( $this->get( 'prices', [] ) );
 
 foreach( $priceItems as $priceItem )
 {
-	$qty = (string) $priceItem->getQuantity();
-	if( !( $p = $prices->get( $qty ) ) || $p->getValue() > $priceItem->getValue() ) {
+	$qty = $priceItem->getQuantity();
+	if( !isset( $prices[$qty] ) || $prices[$qty]->getValue() > $priceItem->getValue() ) {
 		$prices[$qty] = $priceItem;
 	}
 }
-
-$prices->ksort();
-$price = $prices->getValue()->first();
 
 $format = array(
 	/// Price quantity format with quantity (%1$s)
@@ -43,14 +40,10 @@ $notax = $this->translate( 'client', '+ %1$s%% VAT' );
 
 
 ?>
-<meta itemprop="price" content="<?= $price ?>" />
+<meta itemprop="price" content="<?= map( $prices )->getValue()->first(); ?>" />
 
 <?php foreach( $prices as $priceItem ) : ?>
 	<?php
-		if( $priceItem->getValue() > $price ) {
-			continue; // Only show prices for higher quantities if they are lower then the first price
-		}
-
 		/// Price format with price value (%1$s) and currency (%2$s)
 		$format['value'] = $this->translate( 'client/code', 'price:' . ( $priceItem->getType() ?: 'default' ), null, 0, false ) ?: $this->translate( 'client', '%1$s %2$s' );
 		$currency = $this->translate( 'currency', $priceItem->getCurrencyId() );
@@ -62,34 +55,24 @@ $notax = $this->translate( 'client', '+ %1$s%% VAT' );
 		<meta itemprop="priceCurrency" content="<?= $priceItem->getCurrencyId(); ?>" />
 		<meta itemprop="price" content="<?= $priceItem->getValue(); ?>" />
 
-			<!--<span class="quantity" itemscope="" itemtype="http://schema.org/QuantitativeValue">
+		<!-- <span class="quantity" itemscope="" itemtype="http://schema.org/QuantitativeValue">
 			<meta itemprop="minValue" content="<?= $priceItem->getQuantity(); ?>" />
 			<?= $enc->html( sprintf( $format['quantity'], $priceItem->getQuantity() ), $enc::TRUST ); ?>
-		</span>-->
+		</span> -->
 
-		<span class=" product__price product__price--large value">
+		<span class="new-price">
 			<?= $enc->html( sprintf( $format['value'], $this->number( $priceItem->getValue(), $priceItem->getPrecision() ), $currency ), $enc::TRUST ); ?>
 		</span>
 
 		<?php if( $priceItem->getValue() > 0 && $priceItem->getRebate() > 0 ) : ?>
-			<div class="sardes-rebate">
-			<?= $enc->html( sprintf( $format['value'], $this->number( ($priceItem->getValue() + $priceItem->getRebate()), $priceItem->getPrecision() ), $currency ), $enc::TRUST ); ?>
-		</div>
+		<span class="old-price">
+		<?= $enc->html( sprintf( $format['value'], $this->number( ($priceItem->getValue() + $priceItem->getRebate()), $priceItem->getPrecision() ), $currency ), $enc::TRUST ); ?>
 		</span>
-			<span class="rebate product__tag m-l-15 btn--tiny btn--green rebatepercent">
-				<?= $enc->html( sprintf( $format['rebate%'], $this->number( round( $priceItem->getRebate() * 100 / ( $priceItem->getValue() + $priceItem->getRebate() ) ), 0 ) ), $enc::TRUST ); ?>
-				</span>
-		<?php endif; ?>
-
-		<?php if( $priceItem->getCosts() > 0 ) : ?>
-			<span class="costs">
-				<?= $enc->html( sprintf( $format['costs'], $this->number( $priceItem->getCosts(), $priceItem->getPrecision() ), $currency ), $enc::TRUST ); ?>
-			</span>
-		<?php endif; ?>
-
-		<span class="taxrate">
-			<?= $enc->html( sprintf( ( $priceItem->getTaxFlag() ? $withtax : $notax ), $this->number( $priceItem->getTaxrate() ) ), $enc::TRUST ); ?>
+		<span class="old-percentage-price">
+		<?= $enc->html( sprintf( $format['rebate%'], $this->number( round( $priceItem->getRebate() * 100 / ( $priceItem->getValue() + $priceItem->getRebate() ) ), 0 ) ), $enc::TRUST ); ?>
 		</span>
+
+		<?php endif; ?>
 	</div>
 
 <?php endforeach; ?>

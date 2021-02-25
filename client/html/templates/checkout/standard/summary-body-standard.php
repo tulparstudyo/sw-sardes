@@ -1,43 +1,28 @@
 <?php
-
 /**
  * @license LGPLv3, http://opensource.org/licenses/LGPL-3.0
  * @copyright Metaways Infosystems GmbH, 2013
  * @copyright Aimeos (aimeos.org), 2015-2020
  */
-
 $enc = $this->encoder();
-
-
 $basketTarget = $this->config( 'client/html/basket/standard/url/target' );
 $basketCntl = $this->config( 'client/html/basket/standard/url/controller', 'basket' );
 $basketAction = $this->config( 'client/html/basket/standard/url/action', 'index' );
 $basketConfig = $this->config( 'client/html/basket/standard/url/config', [] );
-
 $coTarget = $this->config( 'client/html/checkout/standard/url/target' );
 $coCntl = $this->config( 'client/html/checkout/standard/url/controller', 'checkout' );
 $coAction = $this->config( 'client/html/checkout/standard/url/action', 'index' );
 $coConfig = $this->config( 'client/html/checkout/standard/url/config', [] );
-
 $checkoutAddressUrl = $this->url( $coTarget, $coCntl, $coAction, array( 'c_step' => 'address' ), [], $coConfig );
 $checkoutDeliveryUrl = $this->url( $coTarget, $coCntl, $coAction, array( 'c_step' => 'delivery' ), [], $coConfig );
 $checkoutPaymentUrl = $this->url( $coTarget, $coCntl, $coAction, array( 'c_step' => 'payment' ), [], $coConfig );
 $basketUrl = $this->url( $basketTarget, $basketCntl, $basketAction, [], [], $basketConfig );
-
-
 ?>
-
-
 <?php $this->block()->start( 'checkout/standard/summary' ); ?>
-<section class="checkout-standard-summary common-summary">
+<section class="checkout-standard-summary common-summary ">
 	<input type="hidden" name="<?= $enc->attr( $this->formparam( array( 'cs_order' ) ) ); ?>" value="1" />
 
-	
-
-	
-
-
-
+	<div class="note"><span class="checkout-section-title"><?= $enc->html( $this->translate( 'client', 'summary' ), $enc::TRUST ); ?></span> - <?= $enc->html( $this->translate( 'client', 'Please check your order' ), $enc::TRUST ); ?></div>
 	<div class="common-summary-address row">
 		<div class="item payment <?= !$this->value( $this->get( 'summaryErrorCodes', [] ), 'address/payment' ) ?: 'error' ?> col-sm-6">
 			<div class="header">
@@ -46,7 +31,6 @@ $basketUrl = $this->url( $basketTarget, $basketCntl, $basketAction, [], [], $bas
 				</a>
 				<h3><?= $enc->html( $this->translate( 'client', 'Billing address' ), $enc::TRUST ); ?></h3>
 			</div>
-
 			<div class="content">
 				<?php if( $addresses = $this->standardBasket->getAddress( 'payment' ) ) : ?>
 					<?= $this->partial(
@@ -72,7 +56,6 @@ $basketUrl = $this->url( $basketTarget, $basketCntl, $basketAction, [], [], $bas
 				<?php endif; ?>
 			</div>
 		</div><!--
-
 		--><div class="item delivery <?= !$this->value( $this->get( 'summaryErrorCodes', [] ), 'address/delivery' ) ?: 'error' ?> col-sm-6">
 			<div class="header">
 				<a class="modify" href="<?= $enc->attr( $checkoutAddressUrl ); ?>">
@@ -80,7 +63,6 @@ $basketUrl = $this->url( $basketTarget, $basketCntl, $basketAction, [], [], $bas
 				</a>
 				<h3><?= $enc->html( $this->translate( 'client', 'Delivery address' ), $enc::TRUST ); ?></h3>
 			</div>
-
 			<div class="content">
 				<?php if( $addresses = $this->standardBasket->getAddress( 'delivery' ) ) : ?>
 					<?= $this->partial(
@@ -93,8 +75,6 @@ $basketUrl = $this->url( $basketTarget, $basketCntl, $basketAction, [], [], $bas
 			</div>
 		</div>
 	</div>
-
-
 	<div class="common-summary-service row">
 		<div class="item delivery <?= !$this->value( $this->get( 'summaryErrorCodes', [] ), 'service/delivery' ) ?: 'error' ?> col-sm-6">
 			<div class="header">
@@ -103,7 +83,6 @@ $basketUrl = $this->url( $basketTarget, $basketCntl, $basketAction, [], [], $bas
 				</a>
 				<h3><?= $enc->html( $this->translate( 'client', 'delivery' ), $enc::TRUST ); ?></h3>
 			</div>
-
 			<div class="content">
 				<?php if( $services = $this->standardBasket->getService( 'delivery' ) ) : ?>
 					<?= $this->partial(
@@ -129,7 +108,6 @@ $basketUrl = $this->url( $basketTarget, $basketCntl, $basketAction, [], [], $bas
 				<?php endif; ?>
 			</div>
 		</div><!--
-
 		--><div class="item payment <?= !$this->value( $this->get( 'summaryErrorCodes', [] ), 'service/payment' ) ?: 'error' ?> col-sm-6">
 			<div class="header">
 				<a class="modify" href="<?= $enc->attr( $checkoutPaymentUrl ); ?>">
@@ -137,7 +115,6 @@ $basketUrl = $this->url( $basketTarget, $basketCntl, $basketAction, [], [], $bas
 				</a>
 				<h3><?= $enc->html( $this->translate( 'client', 'payment' ), $enc::TRUST ); ?></h3>
 			</div>
-
 			<div class="content">
 				<?php if( $services = $this->standardBasket->getService( 'payment' ) ) : ?>
 					<?= $this->partial(
@@ -147,38 +124,17 @@ $basketUrl = $this->url( $basketTarget, $basketCntl, $basketAction, [], [], $bas
 				<?php endif; ?>
 			</div>
 		</div>
-
 	</div>
-
-
 	<div class="common-summary-additional row">
-		<!--
-
-		--><div class="form-box__single-group col-sm-12">
-			
-				<h6><?= $enc->html( $this->translate( 'client', 'Additional information' ), $enc::TRUST ); ?></h6>
-				<label for="form-additional-info">Order notes</label>
-		
-
-			<div class="content">
-
-			<textarea class="comment-value" name="<?= $this->formparam( array( 'cs_comment' ) ); ?>" id="form-additional-info" rows="5" placeholder="Notes about your order, e.g. special notes for delivery.">
-			<?= $enc->html( $this->standardBasket->getComment() ); ?>
-			</textarea>
-
-			</div>
-		</div>
-
-		<div class="item coupon <?= !$this->value( $this->get( 'summaryErrorCodes', [] ), 'coupon' ) ?: 'error' ?> col-sm-12">
+		<div class="item coupon <?= !$this->value( $this->get( 'summaryErrorCodes', [] ), 'coupon' ) ?: 'error' ?> col-sm-6">
 			<div class="header">
-			<h6><?= $enc->html( $this->translate( 'client', 'Coupon codes' ), $enc::TRUST ); ?></h6>
-			
-				<a class="modify" href="<?= $enc->attr( $basketUrl ); ?>">
+				
+				<h3><?= $enc->html( $this->translate( 'client', 'Coupon codes' ), $enc::TRUST ); ?></h3>
+				<span><a class="modify" href="<?= $enc->attr( $basketUrl ); ?>">
 					<?= $enc->html( $this->translate( 'client', 'Change' ), $enc::TRUST ); ?>
-				</a>
-			
+				</a></span>
+				
 			</div>
-
 			<div class="content">
 				<?php if( !( $coupons = $this->standardBasket->getCoupons() )->isEmpty() ) : ?>
 					<ul class="attr-list">
@@ -188,29 +144,33 @@ $basketUrl = $this->url( $basketTarget, $basketCntl, $basketAction, [], [], $bas
 					</ul>
 				<?php endif; ?>
 			</div>
+		</div><!--
+		--><?php /*?><div class="item customerref col-sm-4">
+		<div class="header">
+				<h3><?= $enc->html( $this->translate( 'client', 'Your reference' ), $enc::TRUST ); ?></h3>
+			</div>
+			<div class="content-ref">
+				<input class="customerref-value" name="<?= $this->formparam( array( 'cs_customerref' ) ); ?>" value="<?= $enc->attr( $this->standardBasket->getCustomerReference() ); ?>" />
+			</div>
+		</div><?php */?><!--
+		--><div class="item comment col-sm-6">
+			<div class="header">
+				<h3><?= $enc->html( $this->translate( 'client', 'Your comment' ), $enc::TRUST ); ?></h3>
+			</div>
+			<div class="content-value">
+				<textarea  maxlength="100" class="comment-value" name="<?= $this->formparam( array( 'cs_comment' ) ); ?>"><?= $enc->html( $this->standardBasket->getComment() ); ?></textarea>
+			</div>
 		</div>
 	</div>
-
-
-	</div>
-
-
-
-	<div class="col-lg-5">
-
-	<div class="section-content">
-		<h5 class="section-content__title"><?= $enc->html( $this->translate( 'client', 'Your Order' ), $enc::TRUST ); ?></h5>
-		<!--
-		<a class="modify" href="<?= $enc->attr( $basketUrl ); ?>">
+	<div class="common-summary-detail row table table-responsive">
+		<div class="header col-sm-12">
+			<h3><?= $enc->html( $this->translate( 'client', 'Details' ), $enc::TRUST ); ?></h3>
+			<span><a class="modify" href="<?= $enc->attr( $basketUrl ); ?>">
 				<?= $enc->html( $this->translate( 'client', 'Change' ), $enc::TRUST ); ?>
-			</a>-->
-    </div>
-
-	<div class="summary-sticky">
-	<div class="common-summary-detail row">
-		
-
-		<div class="basket table-responsive">
+			</a></span>
+			
+		</div>
+		<div class="basket col-sm-12">
 			<?= $this->partial(
 				/** client/html/checkout/standard/summary/detail
 				 * Location of the detail partial template for the checkout summary
@@ -239,8 +199,7 @@ $basketUrl = $this->url( $basketTarget, $basketCntl, $basketAction, [], [], $bas
 			); ?>
 		</div>
 	</div>
-
-	<div class="checkout-standard-summary-option row">
+	<div class="checkout-standard-summary-option ">
 		<?= $this->partial(
 			/** client/html/checkout/standard/summary/options
 			 * Location of the options partial template for the checkout summary
@@ -261,18 +220,15 @@ $basketUrl = $this->url( $basketTarget, $basketCntl, $basketAction, [], [], $bas
 			['standardBasket' => $this->standardBasket, 'errors' => $this->get( 'summaryErrorCodes', [] )]
 		); ?>
 	</div>
-
-
-	<div class="button-group-checkout" >
-		
-		<button class=" btn--box btn--small btn--radius btn--green btn--black-hover-green btn--uppercase font--semi-bold">
-			<?= $enc->html( $this->translate( 'client', 'Place Order' ), $enc::TRUST ); ?>
+	
+	<div class="button-group">
+		<a class="btn btn-default btn-lg btn-back" href="<?= $enc->attr( $this->get( 'standardUrlBack' ) ); ?>">
+			<?= $enc->html( $this->translate( 'client', 'Back' ), $enc::TRUST ); ?>
+		</a>
+		<button class="btn btn-primary btn-lg btn-action">
+			<?= $enc->html( $this->translate( 'client', 'Buy now' ), $enc::TRUST ); ?>
 		</button>
-	</div>
 	</div>
 </section>
 <?php $this->block()->stop(); ?>
 <?= $this->block()->get( 'checkout/standard/summary' ); ?>
-
-</div>
-</div>

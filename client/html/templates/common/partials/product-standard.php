@@ -1,175 +1,205 @@
 <?php
+
 $enc = $this->encoder();
 $position = $this->get( 'position' );
-
 $detailTarget = $this->config( 'client/html/catalog/detail/url/target' );
 $detailController = $this->config( 'client/html/catalog/detail/url/controller', 'catalog' );
 $detailAction = $this->config( 'client/html/catalog/detail/url/action', 'detail' );
-$detailConfig = $this->config( 'client/html/catalog/detail/url/config', [] ); 
-$detailFilter = array_flip( $this->config( 'client/html/catalog/detail/url/filter', ['d_prodid'] ) );
+$detailConfig = $this->config( 'client/html/catalog/detail/url/config', [] );
+$detailFilter = array_flip( $this->config( 'client/html/catalog/detail/url/filter', ['d_prodid', 'language'] ) );
 
-$basketTarget = $this->config( 'client/html/basket/standard/url/target' );
-$basketController = $this->config( 'client/html/basket/standard/url/controller', 'basket' );
-$basketAction = $this->config( 'client/html/basket/standard/url/action', 'index' );
-$basketConfig = $this->config( 'client/html/basket/standard/url/config', [] );
-$basketSite = $this->config( 'client/html/basket/standard/url/site' );
 
 $watchTarget = $this->config( 'client/html/account/watch/url/target' );
 $watchController = $this->config( 'client/html/account/watch/url/controller', 'account' );
 $watchAction = $this->config( 'client/html/account/watch/url/action', 'watch' );
 $watchConfig = $this->config( 'client/html/account/watch/url/config', [] );
 
-$pinTarget = $this->config( 'client/html/catalog/session/pinned/url/target' );
-$pinController = $this->config( 'client/html/catalog/session/pinned/url/controller', 'catalog' );
-$pinAction = $this->config( 'client/html/catalog/session/pinned/url/action', 'detail' );
-$pinConfig = $this->config( 'client/html/catalog/session/pinned/url/config', [] );
-
-$favTarget = $this->config( 'client/html/account/favorite/url/target' );
-$favController = $this->config( 'client/html/account/favorite/url/controller', 'account' );
-$favAction = $this->config( 'client/html/account/favorite/url/action', 'favorite' );
-$favConfig = $this->config( 'client/html/account/favorite/url/config', [] );
-
-$productItem = $this->get('product');
-
-if($productItem ){
-	$params = array_diff_key( ['d_name' => $productItem->getName( 'url' ), 'd_prodid' => $productItem->getId(), 'd_pos' => $position !== null ? $position++ : ''], $detailFilter ); 
 ?>
-<!-- Start Single Default Product -->
-<div class="product__box product__default--single text-center"> 
-	
-  <!-- Start Product Image -->
-  <div class="product__img-box  pos-relative"> <a href="<?= $enc->attr( $this->url( ( $productItem->getTarget() ?: $detailTarget ), $detailController, $detailAction, $params, [], $detailConfig ) ); ?>" class="product__img--link"> 
-	  <?php if( ( $mediaItem = $productItem->getRefItems( 'media', 'default', 'default' )->first() ) !== null ) : ?>
-	  <div class="product__img img-fluid" style=" background-image: url(<?= $enc->attr( $this->content( $mediaItem->getPreview() ) ); ?>);" alt="<?= $enc->attr( $mediaItem->getName() ); ?>" alt=""></div>
-	  <?php else: ?>
-	  <img class="product__img img-fluid" src="<?=sardes_url('assets/img/product/size-normal/product-home-1-img-1.jpg') ?>" alt="">  
-	  <?php endif; ?>
-    </a><!-- End Product Image --> 
-    
-    <!-- Start Product Action Link-->
-    <?php	$urls = array(
-	'pin' => $this->url( $pinTarget, $pinController, $pinAction, ['pin_action' => 'add', 'pin_id' => $productItem->getId(), 'd_name' => $productItem->getName( 'url' )], $pinConfig ),
 
-'watch' => $this->url( $watchTarget, $watchController, $watchAction, ['wat_action' => 'add', 'wat_id' => $productItem->getId(), 'd_name' => $productItem->getName( 'url' )], $watchConfig ),
-'favorite' => $this->url( $favTarget, $favController, $favAction, ['fav_action' => 'add', 'fav_id' => $productItem->getId(), 'd_name' => $productItem->getName( 'url' )], $favConfig ),
-);
-?>
-    <ul class="product__action--link pos-absolute">
-    <li><a href="compare.html"><i class="icon-sliders"></i></a></li>
+<?php foreach( $this->get( 'products', [] ) as $id => $productItem ) : ?>
+		<?php $params = array_diff_key( [
+    'd_name' => $productItem->getName( 'url' ), 
+    'd_prodid' => $productItem->getId(), 
+    'd_pos' => $position !== null ? $position++ : '' ], 
+    $detailFilter ); ?>
+    <div class="col-lg-3 col-md-3 col-sm-6 ***">
+        <div class="product-item">
+            <div class="single-product">
+                <div class="product-img">
+                    <a href="<?= $enc->attr( $this->url( ( $productItem->getTarget() ?: $detailTarget ), $detailController, $detailAction, $params, [], $detailConfig ) ); ?>">
+                        <?php $mediaItems = $productItem->getRefItems( 'media', 'default', 'default' ); ?>
+                        <?php if($mediaItems){ 
+                        $i = 0;
+                        foreach($mediaItems as $mediaItem){
+                        $i++;
+                        if($i==1){
+                        $imageclass = 'primary';
+                        } else if($i==2){
+                        $imageclass = 'secondary';
+                        } 
+                        ?>
+        
+                        <img class="<?=$imageclass ?>-img" src="<?= $enc->attr( $this->content( $mediaItem->getPreview() ) ); ?>">
+                        <?php if($i>=2) break; } } ?>
+														
+											
+                    </a>
 
+                    <div class="price-box-discount">
 
-   <?php /* <form method="POST" action="<?= $enc->attr( $this->url( $basketTarget, $basketController, $basketAction, ( $basketSite ? ['site' => $basketSite] : [] ), [], $basketConfig ) ); ?>">
-						        <!-- catalog.detail.csrf -->
-						        <?= $this->csrf()->formfield(); ?>
-						        <!-- catalog.detail.csrf -->
+                        <?= $this->partial(
+                        $this->config( 'client/html/common/partials/price', 'common/partials/price-standard' ), ['prices' => $productItem->getRefItems( 'price', null, 'default' )]); ?>
 
-						        <?php if( $basketSite ) : ?>
-							    <input type="hidden" name="<?= $this->formparam( 'site' ) ?>" value="<?= $enc->attr( $basketSite ) ?>" />
-                                <?php endif ?>
-                               
-
-                                <div class="stock-list">
-							        <div class="articleitem stock-actual"
-								        data-prodid="<?= $enc->attr( $productItem->getId() ); ?>"
-								        data-prodcode="<?= $enc->attr( $productItem->getCode() ); ?>">
-						    	    </div>
-
-							        <?php foreach( $productItem->getRefItems( 'product', null, 'default' ) as $articleId => $articleItem ) : ?>
-
-								    <div class="articleitem"
-									    data-prodid="<?= $enc->attr( $articleId ); ?>"
-									    data-prodcode="<?= $enc->attr( $articleItem->getCode() ); ?>">
-								    </div>
-
-							        <?php endforeach; ?>
-
-                                </div>
-                                <?php if( !$productItem->getRefItems( 'price', 'default', 'default' )->empty() ) : ?>
-                                    <div class="product-quantity product-var__item d-flex align-items-center">
-                                        <span class="product-var__text"></span>
-                                        <input type="hidden" value="add" name="<?= $enc->attr( $this->formparam( 'b_action' ) ); ?>" />
-								    	<input type="hidden"
-								    		name="<?= $enc->attr( $this->formparam( ['b_prod', 0, 'prodid'] ) ); ?>"
-								    		value="<?= $enc->attr( $productItem->getId() ); ?>"
-								    	/>   
-
-                     
-                                        <div class="quantity-scale ">
-                                            
-                                            <input type="hidden" id="number" <?= !$productItem->isAvailable() ? 'disabled' : '' ?>
-                                            name="<?= $enc->attr( $this->formparam( ['b_prod', 0, 'quantity'] ) ); ?>"
-								    		min="<?= $productItem->getScale() ?>" max="2147483647"
-								    		step="<?= $productItem->getScale() ?>" maxlength="10"
-								    		value="1" required="required" />
-                                      
-
-                                        </div>
-
-                                    </div>
-                                    <div class="product-var__item button">
-                                                <button type="submit" class=""
-                                                 <?= !$productItem->isAvailable() ? 'disabled' : '' ?>>
-                                                 <?= $enc->html( $this->translate( 'client', 'Add to basket' ), $enc::TRUST ); ?>
-                                                </button>
-                                              
-                                    </div>
-
-                               
-                                     
-                                <?php endif; ?>
-						
-
-                                </form> */?>
+                    </div>
+                    <?php	$urls = array('watch' => $this->url( $watchTarget, $watchController, $watchAction, ['wat_action' => 'add', 'wat_id' => $productItem->getId(), 'd_name' => $productItem->getName( 'url' )], $watchConfig ),
 
 
 
-    <?php 
+                    );?>
+
+                    <div class="add-actions">
+                        <ul>
+                        <li class="quick-view-btn" data-toggle="modal" data-target="#exampleModalCenter"><a href="<?= $enc->attr( $this->url( $detailTarget, $detailController, $detailAction, $params, [], $detailConfig ) ); ?>" data-toggle="tooltip" data-placement="right" title="" data-original-title="<?=$this->translate( 'client', 'Quick view' )?>"><i class="fa fa-search"></i></a>
+                        </li>
+                   												
+						<?php foreach( $this->config( 'client/html/catalog/actions/list', ['watch'] ) as $entry ) : ?>
+
+		                    <?php if( isset( $urls[$entry] ) ) : ?>
+
+			                <li><a href="<?= $enc->attr( $urls[$entry] );  ?> " data-toggle="tooltip" data-placement="right" title="<?=$this->translate( 'client', 'Watch' )?>">
+
+                                <i  class="fa fa-eye"></i>
+
+                                </a>
+
+			                </li>
 
 
 
-	$icons = array('pin'=>'fa-map-pin','watch'=>'fa-eye','favorite'=>'fa-heart');
+		                    <?php endif; ?>
 
+	                    <?php endforeach; ?>
 
+                        </ul>
+                    </div>
+						           
 
-	 foreach( $this->config( 'client/html/catalog/actions/list', [ 'pin', 'favorite', 'watch'] ) as $entry ) : ?>
-
-		<?php if( isset( $urls[$entry] ) ) : ?>
-
-			<li><a class="btn btn--round btn--round-size-small btn--green btn--green-hover-black" href="<?= $enc->attr( $urls[$entry] );  ?> " title="<?= $enc->attr( $this->translate( 'client/code', $entry ) ); ?>" data-toggle="tooltip" target="_blank" title="" data-original-title="<?= $enc->attr( $entry ); ?>">
-
-                   <i class="fa <?= @$icons[$enc->attr( $entry )]; ?>"></i>
-
-                </a>
-
-			</li>
-
-		<?php endif; ?>
-	  <?php endforeach; ?>
-     
-    </ul>
-    <!-- End Product Action Link --> 
-  </div>
-   
+                </div>
+                <div class="product-content">
+                    <div class="product-desc_info">
+                        <h3 class="product-name"><a href="<?= $enc->attr( $this->url( ( $productItem->getTarget() ?: $detailTarget ), $detailController, $detailAction, $params, [], $detailConfig ) ); ?>"><?= $enc->html( $productItem->getName(), $enc::TRUST ); ?></a></h3>
   
-  <!-- Start Product Content -->
-  <div class="product__content m-t-20">
-    <ul class="product__review">
-<!-- <?php if( $productItem->getRating() > 0 ) : ?>-->
-		<?= str_repeat( '<li class="product__review--fill"><i class="icon-star"></i></li>', (int) round( $productItem->getRating() ) ) ?>
-<!--<?php endif ?> --> 
-		
-    </ul>
-    <a href="<?= $enc->attr( $this->url( ( $productItem->getTarget() ?: $detailTarget ), $detailController, $detailAction, $params, [], $detailConfig ) ); ?>" class="product__link"><?=$productItem->get('product.label')?></a>
-        <?= $this->partial(
-            $this->config( 'client/html/common/partials/price', 'common/partials/price-standard' ),
-            ['prices' => $productItem->getRefItems( 'price', null, 'default' )]
-        ); ?>
-	  
-    
-  </div>
-  <!-- End Product Content --> 
-</div>
-<!-- End Single Default Product --> 
-<?php 
-}
-?>
+                        <div class="price-box">
+
+                            <?= $this->partial(
+                            $this->config( 'client/html/common/partials/price', 'common/partials/price-standard' ), ['prices' => $productItem->getRefItems( 'price', null, 'default' )]); ?>
+
+                        </div>
+
+                        <?php if( $productItem->getRating() > 0 ) : ?>
+						<div class="rating" itemprop="aggregateRating" itemscope="" itemtype="http://schema.org/AggregateRating">
+							<span class="stars"><?= str_repeat( '★', (int) round( $productItem->getRating() ) ) ?></span>
+							
+							<?php /*<span class="ratings" itemprop="reviewCount"><?= (int) $this->detailProductItem->getRatings() ?></span>*/?>
+                        </div>
+                        
+                        <?php else :?>
+						<div class="rating-empty" itemprop="aggregateRating" itemscope="" itemtype="http://schema.org/AggregateRating">
+							<span class="stars"><?= str_repeat( '<i class="ion-ios-star-outline"></i>', 5 ) ?></span>
+							
+						</div>
+				
+					<?php endif ?>
+               
+                    </div>
+                </div>
+            </div>
+
+            
+            
+        </div>
+
+        <div class="list-product_item">
+
+            <div class="single-product">
+
+				<div class="product-img">
+                    <a href="<?= $enc->attr( $this->url( ( $productItem->getTarget() ?: $detailTarget ), $detailController, $detailAction, $params, [], $detailConfig ) ); ?>">
+
+						<?php 
+						    $imageStep = 0;
+
+						    foreach( $productItem->getRefItems( 'media', 'default', 'default' ) as $k => $mediaItem ) : ?>
+						    <?php $imageType = 'secondary-img';
+						    if($imageStep==0){$imageType="primary-img";}
+						    if($imageStep > 1){break;}
+							$imageStep++;
+							?>
+
+						    <img class="<?= $imageType?> <?=$k?>" src="<?= $enc->attr( $this->content( $mediaItem->getPreview() ) ); ?>" alt="<?= $enc->html( $productItem->getName(), $enc::TRUST ); ?>" style="max-height: 200px; width: auto;">
+											
+						<?php endforeach; ?>
+						              
+					</a>
+
+                </div> 
+
+                <div class="product-content">
+
+                <div class="product-desc_info">
+					                <div class="price-box">
+					                    <?= $this->partial(
+												$this->config( 'client/html/common/partials/price', 'common/partials/price-standard' ),
+												array( 'prices' => $productItem->getRefItems( 'price', null, 'default' )->first() ?: map() )
+											); ?>
+					                </div>
+					                <h6 class="product-name"><a href="<?= $enc->attr( $this->url( ( $productItem->getTarget() ?: $detailTarget ), $detailController, $detailAction, $params, [], $detailConfig ) ); ?>"><?= $enc->html( $productItem->getName(), $enc::TRUST ); ?></a></h6>
+							
+					                <div class="product-short_desc">
+					                	<?php foreach( $productItem->getRefItems( 'text', 'short', 'default' ) as $textItem ) : ?>
+
+											<p>
+												<?= $enc->html( $textItem->getContent(), $enc::TRUST ); ?>
+											</p>
+
+										<?php endforeach; ?>
+					                   
+					                </div>
+				</div>
+
+                <div class="add-actions">
+					                <ul>
+					                    <li class="quick-view-btn" data-toggle="modal" data-target="#exampleModalCenter"><a href="<?= $enc->attr( $this->url( $detailTarget, $detailController, $detailAction, $params, [], $detailConfig ) ); ?>" data-toggle="tooltip" data-placement="top" title="" data-original-title="<?=$this->translate( 'client', 'Quick view' )?>"><i class="fa fa-search"></i></a>
+                                        </li>
+                                        <?php /*<li><a href="#" data-toggle="tooltip" data-placement="top" title="" data-original-title="<?=$this->translate( 'client', 'Add To Wishlist' )?>"><i class="fa fa-heart"></i></a>
+                                        </li> */?>
+													
+										<?php foreach( $this->config( 'client/html/catalog/actions/list', ['watch'] ) as $entry ) : ?>
+
+											<?php if( isset( $urls[$entry] ) ) : ?>
+
+											<li><a href="<?= $enc->attr( $urls[$entry] );  ?> "
+				   								data-toggle="tooltip" data-placement="top" title="<?=$this->translate( 'client', 'Watch' )?>">
+
+                                                <i  class="fa fa-eye"></i>
+
+                                            </a>
+
+											</li>
+											<?php endif; ?>
+										<?php endforeach; ?>
+
+					                </ul>
+				</div>
+
+                </div> 
+
+
+            </div> 
+        </div>
+
+
+        
+    </div>
+
+	<?php endforeach; ?>

@@ -13,10 +13,10 @@ $enc = $this->encoder();
 <?php $this->block()->start( 'checkout/standard/delivery' ); ?>
 <section class="checkout-standard-delivery">
 
-<div class="section-content">
-    	<h5 class="section-content__title"><?= $enc->html( $this->translate( 'client', 'delivery' ), $enc::TRUST ); ?></h5>
-    </div>
 
+	<div class="note">	<span class="checkout-section-title"><?= $enc->html( $this->translate( 'client', 'delivery' ), $enc::TRUST ); ?></span> - <?= $enc->html( $this->translate( 'client', 'Please choose your delivery method' ), $enc::TRUST ); ?></div>
+	
+	
 
 	<?php foreach( $this->get( 'deliveryServices', [] ) as $id => $service ) : ?>
 		<div id="c_delivery-<?= $enc->attr( $id ); ?>" class="item item-service row">
@@ -24,10 +24,10 @@ $enc = $this->encoder();
 			<div class="col-sm-12">
 				<label class="description" for="c_deliveryoption-<?= $enc->attr( $id ); ?>">
 
-				<input class="option shipping-select" type="radio" 
+					<input class="option" type="radio"
 						id="c_deliveryoption-<?= $enc->attr( $id ); ?>"
-						name="<?= $enc->attr( $this->formparam( ['c_deliveryoption'] ) ); ?>" 
-						value="<?= $enc->attr( $id ); ?>" 
+						name="<?= $enc->attr( $this->formparam( ['c_deliveryoption'] ) ); ?>"
+						value="<?= $enc->attr( $id ); ?>"
 						<?= $id != $this->get( 'deliveryOption' ) ?: 'checked="checked"' ?>
 					/>
 
@@ -70,7 +70,7 @@ $enc = $this->encoder();
 
 					<?php foreach( $service->getRefItems( 'text', null, 'default' ) as $textItem ) : ?>
 						<?php if( ( $type = $textItem->getType() ) !== 'name' ) : ?>
-							<p class="<?= $enc->attr( $type ); ?>"><?= $enc->html( $textItem->getContent(), $enc::TRUST ); ?></p>
+							<p class="<?= $enc->attr( $type ); ?> p-0 m-0 font-14 font-weight-500"><?= $enc->html( $textItem->getContent(), $enc::TRUST ); ?></p>
 						<?php endif; ?>
 					<?php endforeach; ?>
 

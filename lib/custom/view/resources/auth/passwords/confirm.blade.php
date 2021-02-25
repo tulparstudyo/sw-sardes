@@ -1,9 +1,11 @@
-@extends('app')
+@extends('shop::base')
 
-@section('content')
+@section('aimeos_body')
+
+<section>
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-6 col-md-push-3">
             <div class="card">
                 <div class="card-header">{{ __('Confirm Password') }}</div>
 

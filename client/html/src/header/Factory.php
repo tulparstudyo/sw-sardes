@@ -12,7 +12,7 @@ namespace Aimeos\Client\Html\Swordbros\Sardes\Header;
 /**
  * Factory for product profile HTML client in user accounts.
  *
- * @package Client
+ * @package Client 
  * @subpackage Html
  */
 class Factory

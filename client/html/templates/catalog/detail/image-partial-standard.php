@@ -13,24 +13,7 @@ $detailController = $this->config( 'client/html/catalog/detail/url/controller', 
 $detailAction = $this->config( 'client/html/catalog/detail/url/action', 'detail' );
 $detailConfig = $this->config( 'client/html/catalog/detail/url/config', [] );
 ?>
-<div class="product-gallery-box product-gallery-box--default m-b-60">
-                            <div class="product-image--large product-image--large-horizontal">
-							<?php $mediaItem = $this->get( 'mediaItems', [] )->first();
-								$imgUrl = $this->content( $mediaItem->getUrl() );
-				  			?>
-                            <img class="img-fluid" id="img-zoom" src="<?= $imgUrl ?>" data-zoom-image="<?= $imgUrl ?>" alt="">
-                            </div>
-                            <div id="gallery-zoom" class="product-image--thumb product-image--thumb-horizontal pos-relative">
-							<?php foreach( $this->get( 'mediaItems', [] ) as $id => $mediaItem ) : ?>
-								<?php $previewUrl = $this->content( $mediaItem->getUrl() ); ?>
-                                <a data-image="<?= $previewUrl; ?>" data-zoom-image="<?= $previewUrl; ?>">
-                                    <img class="img-fluid" src="<?= $previewUrl; ?>" alt="">
-								</a><?php endforeach; ?>
-								
-                             
-                            </div>
-                        </div>
-<?php /*<div class="catalog-detail-image">
+<div class="catalog-detail-image">
 	<div class="image-single" data-pswp="{bgOpacity: 0.75, shareButtons: false}">
 		<?php foreach( $this->get( 'mediaItems', [] ) as $id => $mediaItem ) : ?>
 			<div id="image-<?= $enc->attr( $id ); ?>" class="media-item">
@@ -103,4 +86,4 @@ $detailConfig = $this->config( 'client/html/catalog/detail/url/config', [] );
 			</div>
 		</div>
 	</div>
-</div>*/?>
+</div>

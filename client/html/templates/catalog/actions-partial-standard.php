@@ -1,11 +1,9 @@
 <?php
-
 /**
  * @license LGPLv3, http://opensource.org/licenses/LGPL-3.0
  * @copyright Metaways Infosystems GmbH, 2014
  * @copyright Aimeos (aimeos.org), 2015-2020
  */
-
 /* Available data:
  * - productItem : Product item incl. referenced items
  */
@@ -53,15 +51,21 @@ $urls = array(
 	'favorite' => $this->url( $favTarget, $favController, $favAction, ['fav_action' => 'add', 'fav_id' => $this->productItem->getId(), 'd_name' => $this->productItem->getName( 'url' )], $favConfig ),
 );
 
-$icons = array('pin'=>'fa-map-pin','watch'=>'fa-eye','favorite'=>'fa-heart');
+
 ?>
+<div class="catalog-actions kenne-social_link">
+	<ul>
+	<?php
 
-
-<div class="catalog-actions">
-	<?php foreach( $this->config( 'client/html/catalog/actions/list', ['pin', 'watch', 'favorite'] ) as $entry ) : ?>
+	$icons = array('pin'=>'fa-thumb-tack','watch'=>'fa-eye','favorite'=>'fa-heart');
+	//$this->config( 'client/html/catalog/actions/list', ['pin', 'watch', 'favorite'] ) 
+	 foreach( $this->config( 'client/html/catalog/actions/list', [ 'watch', 'favorite'] ) as $entry ) : ?>
 		<?php if( isset( $urls[$entry] ) ) : ?>
-			<a class="actions-button actions-button-<?= $enc->attr( $entry ); ?>" href="<?= $enc->attr( $urls[$entry] ); ?>" title="<?= $enc->attr( $this->translate( 'client/code', $entry ) ); ?>">
-            <i class="fa <?= @$icons[$enc->attr( $entry )]; ?> "></i></a>
+			<li><a href="<?= $enc->attr( $urls[$entry] );  ?> " title="<?= $enc->attr( $this->translate( 'client/code', $entry ) ); ?>" data-toggle="tooltip" target="_blank" title="" data-original-title="<?= $enc->attr( $entry ); ?>">
+                                                <i class="fa <?= @$icons[$enc->attr( $entry )]; ?>"></i>
+                                            </a>
+			</li>
 		<?php endif; ?>
 	<?php endforeach; ?>
+</ul>
 </div>

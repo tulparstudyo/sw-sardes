@@ -8,32 +8,27 @@
 
 $enc = $this->encoder();
 
-$target = $this->config( 'client/jsonapi/url/target' );
-$controller = $this->config( 'client/jsonapi/url/controller', 'jsonapi' );
-$action = $this->config( 'client/jsonapi/url/action', 'options' );
-$config = $this->config( 'client/jsonapi/url/config', [] );
+$optTarget = $this->config( 'client/jsonapi/url/target' );
+$optCntl = $this->config( 'client/jsonapi/url/controller', 'jsonapi' );
+$optAction = $this->config( 'client/jsonapi/url/action', 'options' );
+$optConfig = $this->config( 'client/jsonapi/url/config', [] );
 
 
-$tree = \Aimeos\Shop\Facades\Shop::get('catalog/filter');
+?>
+<?php $this->block()->start( 'locale/select' ); ?>
+<!-- <div class="aimeos locale-select" data-jsonurl="<?= $enc->attr( $this->url( $optTarget, $optCntl, $optAction, [], [], $optConfig ) ); ?>"> -->
 
-$view = $tree->addData($this);
 
-$nav['locale'] = $this->partial( $this->config( 'client/html/common/partials/locale', 'common/partials/locale-standard' ),
-			array(
-				'selectMap' => $this->get( 'selectMap', [] ),
-				'selectLanguageId' => $this->get( 'selectLanguageId', 'ru' ),
-				'selectCurrencyId' => $this->get( 'selectCurrencyId', 'RUB' ),
-			)
-		);		
-$nav['items'] = [];
-$nav['categories'] = $view->treeCatalogTree->getChildren();
-$header_type = sardes_option('header_type');
-if(empty($header_type)) $header_type = 'standard';
-$this->block()->start( 'locale/select' ); 
-echo $this->partial( $this->config( 'client/html/header', 'header/body-'.$header_type ),
-			array(
-				'nav' => $nav,
-			)
-		);
-$this->block()->stop(); ?>
+	<?php if( ( $errors = $this->get( 'selectErrorList', [] ) ) !== [] ) : ?>
+		<ul class="error-list">
+			<?php foreach( $errors as $error ) : ?>
+				<li class="error-item"><?= $enc->html( $error ); ?></li>
+			<?php endforeach; ?>
+		</ul>
+	<?php endif; ?>
+	
+	<?= $this->get( 'selectBody' ); ?>
+	
+<!-- </div> -->
+<?php $this->block()->stop(); ?>
 <?= $this->block()->get( 'locale/select' ); ?>

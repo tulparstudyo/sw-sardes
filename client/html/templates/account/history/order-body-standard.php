@@ -221,12 +221,12 @@ $basketSite = $this->config( 'client/html/basket/standard/url/site' );
 		<div class="button-group">
 			<span class ="action">
 
-			<a style="color:white!important" class="btn btn-default"
+			<a class=" btn btn-default btn-close"
 				>
 				<?= $enc->html( $this->translate( 'client', 'Close' ), $enc::TRUST ); ?>
 			</a>
 			</span>
-			<button class=" btn btn-action">
+			<button class="btn btn-primary btn-action btn-reorder">
 				<?= $enc->html( $this->translate( 'client', 'Reorder' ), $enc::TRUST ); ?>
 			</button>
 

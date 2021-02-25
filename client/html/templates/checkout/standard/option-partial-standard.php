@@ -249,21 +249,24 @@ $cancelConfig = $this->config( 'client/html/checkout/standard/summary/option/ter
 
 	<div class="single <?= !$this->value( $this->get( 'error', [] ), 'option/terms' ) ?: 'error' ?>">
 		<input type="hidden" name="<?= $enc->attr( $this->formparam( array( 'cs_option_terms' ) ) ); ?>" value="1" />
-		<input id="option-terms-accept" type="checkbox" value="1" checked
+		<input id="option-terms-accept" type="checkbox" checked value="1"
 			name="<?= $enc->attr( $this->formparam( array( 'cs_option_terms_value' ) ) ); ?>"
-			<?= ( $this->param( 'cs_option_terms_value', null ) == 1 ? 'checked="checked"' : '' ); ?>
+			<?= ( $this->param( 'cs_option_terms_value', null ) == 1 ? 'checked="checked"' : '' ); ?> 
 		/>
 
 		<p>
-			<label for="option-terms-accept">
+
+			<label for="option-terms-accept"option-terms-accept >
 				<?= $enc->html( sprintf( $this->translate( 'client',
-					'I accept the <a href="%1$s" target="_blank" title="terms and conditions" alt="terms and conditions">terms and conditions</a>, <a href="%2$s" target="_blank" title="privacy policy" alt="privacy policy">privacy policy</a> and <a href="%3$s" target="_blank" title="cancellation policy" alt="cancellation policy">cancellation policy</a>' ),
-					$enc->attr( $this->url( $termsTarget, $termsController, $termsAction, [], [], $termsConfig ) ),
-					$enc->attr( $this->url( $privacyTarget, $privacyController, $privacyAction, [], [], $privacyConfig ) ),
-					$enc->attr( $this->url( $cancelTarget, $cancelController, $cancelAction, [], [], $cancelConfig ) )
+					'I accept the <a href="%1$s" target="_blank" title="terms and conditions" alt="terms and conditions" class="sw_popup">terms and conditions</a>, <a href="%2$s" target="_blank" title="privacy policy" alt="privacy policy" class="sw_popup">privacy policy</a> and <a href="%3$s" target="_blank" title="cancellation policy" alt="cancellation policy" class="sw_popup">cancellation policy</a>' ),
+					$enc->attr( $this->url( 'legal', null, 'null', ['locale'=> \Route::current()->parameter('locale','ru'), 'currency'=> \Route::current()->parameter('currency','RUB'), 'blog_code'=>'terms-conditions', 'KeepThis'=>'true', 'TB_iframe'=>'true', 'height'=>600, 'width'=>600], [], $termsConfig ) ),
+					$enc->attr( $this->url( 'legal', null, 'null', ['locale'=> \Route::current()->parameter('locale','ru'), 'currency'=> \Route::current()->parameter('currency','RUB'), 'blog_code'=>'privacy-policy', 'KeepThis'=>'true', 'TB_iframe'=>'true', 'height'=>600, 'width'=>600], [], $termsConfig ) ),
+					$enc->attr( $this->url( 'legal', null, 'null', ['locale'=> \Route::current()->parameter('locale','ru'), 'currency'=> \Route::current()->parameter('currency','RUB'), 'blog_code'=>'cancel-policy', 'KeepThis'=>'true', 'TB_iframe'=>'true', 'height'=>600, 'width'=>600], [], $termsConfig ) )
 				), $enc::TRUST ); ?>
 			</label>
 		</p>
+<script>
 
+</script>
 	</div>
 </div>

@@ -29,27 +29,32 @@ $enc = $this->encoder();
 
 ?>
 <?php $this->block()->start( 'checkout/standard/address/billing' ); ?>
-<div class="checkout-standard-address-billing col-lg-12">
-
-	<div class="section-content">
-    	<h5 class="section-content__title"><?= $enc->html( $this->translate( 'client', 'Billing address' ), $enc::TRUST ); ?></h5>
-    </div>
-
+<style>
+    .aimeos.checkout-standard form > section{
+        
+    }
+    .item-address .form-list{
+        display: none;
+    }
+</style>
+<div class="checkout-standard-address-billing col-xs-12 col-xl col-sm-6 col-lg-6">
+	<h5 style="font-size: large;    font-weight: bold;
+    color: #333;"><?= $enc->html( $this->translate( 'client', 'Billing address' ), $enc::TRUST ); ?></h5>
 
 
 	<?php if( isset( $this->addressPaymentItem ) && $this->addressPaymentItem->getAddressId() ) : ?>
 		<div class="item-address">
-			<div class="header gray-bg ">
+			<div class="header">
 				<input id="ca_billingoption-<?= $enc->attr( $this->addressPaymentItem->getAddressId() ) ?>" type="radio"
 					name="<?= $enc->attr( $this->formparam( array( 'ca_billingoption' ) ) ) ?>"
-					value="<?= $enc->attr( $this->addressPaymentItem->getAddressId() ) ?>" class="shipping-select"
+					value="<?= $enc->attr( $this->addressPaymentItem->getAddressId() ) ?>"
 					<?= $this->get( 'addressBillingOption' ) == $this->addressPaymentItem->getAddressId() ? 'checked="checked"' : '' ?>
 				/>
 				<label for="ca_billingoption-<?= $enc->attr( $this->addressPaymentItem->getAddressId() ) ?>" class="values">
-					<?= nl2br( $this->get( 'addressBillingString', '' ) ) ?>
+					<?= $enc->html( $this->translate( 'client', "Address") ); ?>
 				</label>
 			</div>
-			<div class="form-list">
+			<div class="form-list" style="display: block" >
 				<?= $this->partial(
 					/** client/html/checkout/standard/partials/address
 					 * Relative path to the address partial template file
@@ -84,16 +89,16 @@ $enc = $this->encoder();
 
 	<?php if( !$this->config( 'client/html/common/address/billing/disable-new', false ) ) : ?>
 		<div class="item-address item-new" data-option="<?= $enc->attr( $this->get( 'addressBillingOption' ) ); ?>">
-			<div class="header gray-bg">
+			<div class="header">
 				<input id="ca_billingoption-new" type="radio" value="null"
-					name="<?= $enc->attr( $this->formparam( array( 'ca_billingoption' ) ) ); ?>" class="shipping-select"
+					name="<?= $enc->attr( $this->formparam( array( 'ca_billingoption' ) ) ); ?>"
 					<?= $this->get( 'addressBillingOption' ) == 'null' ? 'checked="checked"' : '' ?>
 				/>
 				<label for="ca_billingoption-new" class="values value-new">
 					<?= $enc->html( $this->translate( 'client', 'new address' ), $enc::TRUST ); ?>
 				</label>
 			</div>
-			<div class="form-list">
+			<div class="form-list" style="display: block;">
 				<?= $this->partial(
 					$this->config( 'client/html/checkout/standard/partials/address', 'checkout/standard/address-partial-standard' ),
 					array(

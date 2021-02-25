@@ -98,14 +98,14 @@ $productItems = $this->get( 'todoProductItems', map() );
 <?php if( !$productItems->isEmpty() ) : ?>
 
 	<div class="account-review-todo">
-		<form method="POST" action="<?= $enc->attr( $this->link( 'client/html/account/review/url' ) ) ?>">
-			<?= $this->csrf()->formfield(); ?>
+		
 
 			<?php foreach( $productItems as $prodId => $productItem ) : ?>
 				<?php $images = $productItem->getRefItems( 'media', 'default', 'default' ) ?>
-
+				<form method="POST" action="<?= $enc->attr( $this->link( 'client/html/account/review/url' ) ) ?>">
+			<?= $this->csrf()->formfield(); ?>
 				<div class="todo-item">
-					<h6 class="todo-name m-t-30"><?= $enc->html( $productItem->getName() ) ?></h6>
+					<h3 class="todo-name"><?= $enc->html( $productItem->getName() ) ?></h3>
 					<input type="hidden" value="<?= $enc->attr( $productItem->get( 'orderProductId' ) ) ?>"
 						name="<?= $enc->attr( $this->formparam( ['review-todo', $prodId, 'review.orderproductid'] ) ) ?>" />
 					<div class="row">
@@ -122,31 +122,31 @@ $productItems = $this->get( 'todoProductItems', map() );
 									<h4><?= $enc->html( $this->translate( 'client', 'Your rating' ) ) ?></h4>
 									<div class="todo-rating">
 										<div class="rating-line">
-										<input id="rating-<?= $enc->attr( $prodId ) ?>-5" class="rating rating-4 shipping-select" 
+											<input id="rating-<?= $enc->attr( $prodId ) ?>-5" class="rating rating-5" checked
 												type="radio" value="5" name="<?= $this->formparam( ['review-todo', $prodId, 'review.rating'] ) ?>"
 												<?= $this->param( 'review-todo/' . $prodId . '/review.rating' ) == 5 ? 'selected' : '' ?> />
 											<label for="rating-<?= $enc->attr( $prodId ) ?>-5">★★★★★</label>
 										</div>
 										<div class="rating-line">
-											<input id="rating-<?= $enc->attr( $prodId ) ?>-4" class="rating rating-4 shipping-select" 
+											<input id="rating-<?= $enc->attr( $prodId ) ?>-4" class="rating rating-4"
 												type="radio" value="4" name="<?= $this->formparam( ['review-todo', $prodId, 'review.rating'] ) ?>"
 												<?= $this->param( 'review-todo/' . $prodId . '/review.rating' ) == 4 ? 'selected' : '' ?> />
 											<label for="rating-<?= $enc->attr( $prodId ) ?>-4">★★★★</label>
 											</div>
 										<div class="rating-line">
-											<input id="rating-<?= $enc->attr( $prodId ) ?>-3" class="rating rating-3 shipping-select"
+											<input id="rating-<?= $enc->attr( $prodId ) ?>-3" class="rating rating-3"
 												type="radio" value="3" name="<?= $this->formparam( ['review-todo', $prodId, 'review.rating'] ) ?>"
 												<?= $this->param( 'review-todo/' . $prodId . '/review.rating' ) == 3 ? 'selected' : '' ?> />
 											<label for="rating-<?= $enc->attr( $prodId ) ?>-3">★★★</label>
 											</div>
 										<div class="rating-line">
-											<input id="rating-<?= $enc->attr( $prodId ) ?>-2" class="rating rating-2 shipping-select"
+											<input id="rating-<?= $enc->attr( $prodId ) ?>-2" class="rating rating-2"
 												type="radio" value="2" name="<?= $this->formparam( ['review-todo', $prodId, 'review.rating'] ) ?>"
 												<?= $this->param( 'review-todo/' . $prodId . '/review.rating' ) == 2 ? 'selected' : '' ?> />
 											<label for="rating-<?= $enc->attr( $prodId ) ?>-2">★★</label>
 											</div>
 										<div class="rating-line">
-											<input id="rating-<?= $enc->attr( $prodId ) ?>-1" class="rating rating-1 shipping-select"
+											<input id="rating-<?= $enc->attr( $prodId ) ?>-1" class="rating rating-1"
 												type="radio" value="1" name="<?= $this->formparam( ['review-todo', $prodId, 'review.rating'] ) ?>"
 												<?= $this->param( 'review-todo/' . $prodId . '/review.rating' ) == 1 ? 'selected' : '' ?> />
 											<label for="rating-<?= $enc->attr( $prodId ) ?>-1">★</label>
@@ -165,15 +165,20 @@ $productItems = $this->get( 'todoProductItems', map() );
 						</div>
 					</div>
 				</div>
+				
+			<button class="btn btn-primary">Send </button>
 
-			<?php endforeach ?>
+		
 
-			<button class="btn btn--long btn--radius-tiny btn--green btn--green-hover-black btn--uppercase btn--weight m-r-20">Submit</button>
 
 		</form>
-
+		<?php endforeach ?>
 		<?= $this->get( 'todoBody' ); ?>
 
+	</div>
+	<?php else: ?>
+	<div class="account-info">
+	<p> You can comment on the products you have ordered.</p>
 	</div>
 
 <?php endif ?>

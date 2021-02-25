@@ -1,20 +1,14 @@
 <?php
-
 /**
  * @license LGPLv3, http://opensource.org/licenses/LGPL-3.0
  * @copyright Metaways Infosystems GmbH, 2012
  * @copyright Aimeos (aimeos.org), 2015-2020
  */
-
 $enc = $this->encoder();
-
-
 $listTarget = $this->config( 'client/html/catalog/lists/url/target' );
 $listController = $this->config( 'client/html/catalog/lists/url/controller', 'catalog' );
 $listAction = $this->config( 'client/html/catalog/lists/url/action', 'list' );
 $listConfig = $this->config( 'client/html/catalog/lists/url/config', [] );
-
-
 /** client/html/catalog/filter/tree/force-search
  * Use the current category in full text searches
  *
@@ -32,7 +26,6 @@ $listConfig = $this->config( 'client/html/catalog/lists/url/config', [] );
  * @category User
  */
 $enforce = $this->config( 'client/html/catalog/filter/tree/force-search', false );
-
 /** client/html/catalog/filter/partials/tree
  * Relative path to the category tree partial template file
  *
@@ -44,39 +37,46 @@ $enforce = $this->config( 'client/html/catalog/filter/tree/force-search', false 
  * @since 2017.01
  * @category Developer
  */
-
-
+ 
 ?>
 <?php $this->block()->start( 'catalog/filter/tree' ); ?>
-<?php if( isset( $this->treeCatalogTree ) && $this->treeCatalogTree->getStatus() > 0 && !$this->treeCatalogTree->getChildren()->isEmpty() ) : ?>
-                        <!-- Start Single Sidebar Widget - Filter [Catagory] -->
-                        <div class="sidebar__widget">
-                            <div class="sidebar__box">
-                                <h5 class="sidebar__title">PRODUCT CATEGORIES</h5>
-                            </div>
-                            <ul class="sidebar__menu">
-                                <li>
-                                    <ul class="sidebar__menu-collapse">
-                                        <!-- Start Single Menu Collapse List -->
-                                       <li class="sidebar__menu-collapse-list">
-                                           <div class="accordion">
-				<?= $this->partial(
-					$this->config( 'client/html/catalog/filter/partials/tree', 'catalog/filter/tree-partial-standard' ),
-					[
-						'nodes' => $this->treeCatalogTree->getChildren(),
-						'path' => $this->get( 'treeCatalogPath', map() ),
-						'params' => $this->get( 'treeFilterParams', [] ),
-						'level' => 1
-					]
-				); ?>
-
-                                           </div>
-                                       </li> <!-- End Single Menu Collapse List -->
-                                   </ul>
-                                </li>
-                            </ul>
-                        </div>  <!-- End SSingle Sidebar Widget - Filter [Catagory] -->
-
-<?php endif ?>
+ <div class="kenne-sidebar_categories category-module catalog-filter-tree <?= ( $this->config( 'client/html/catalog/count/enable', true ) ? 'catalog-filter-count' : '' ); ?>">
+	
+                  
+	<?php if( $enforce ) : ?>
+		<input type="hidden"
+			name="<?= $enc->attr( $this->formparam( ['f_catid'] ) ); ?>"
+			value="<?= $enc->attr( $this->param( 'f_catid' ) ); ?>"
+		/>
+	<?php endif; ?>
+	<div class="kenne-categories_title">
+        <h5 class="widget-title line-bottom"><?= $enc->html( $this->translate( 'client', 'Categories' ), $enc::TRUST ); ?></h5>
+    </div>
+	
+	 <div class="sidebar-categories_menu">
+                    
+                
+	<?php if( $this->param( 'f_catid' ) ) : ?>
+		<div class="category-selected">
+			<span class="selected-intro"><?= $enc->html( $this->translate( 'client', 'Your choice' ), $enc::TRUST ); ?></span>
+			<a class="selected-category" href="<?= $enc->attr( $this->url( $listTarget, $listController, $listAction, map( $this->treeFilterParams )->remove( ['f_catid', 'f_name'] )->toArray(), [], $listConfig ) ); ?>">
+				<?= $enc->html( $this->get( 'treeCatalogPath', map() )->getName()->last(), $enc::TRUST ); ?>
+			</a>
+		</div>
+	<?php endif; ?>
+	
+	<?php if( isset( $this->treeCatalogTree ) && $this->treeCatalogTree->getStatus() > 0 ) : ?>
+		<?= $this->partial(
+			$this->config( 'client/html/catalog/filter/partials/tree', 'catalog/filter/tree-partial-standard' ),
+			[
+				'nodes' => [$this->treeCatalogTree],
+				'path' => $this->get( 'treeCatalogPath', map() ),
+				'params' => $this->get( 'treeFilterParams', [] )
+			]
+		); ?>
+	<?php endif; ?>
+   
+  </div>
+</div>
 <?php $this->block()->stop(); ?>
 <?= $this->block()->get( 'catalog/filter/tree' ); ?>

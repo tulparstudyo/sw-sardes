@@ -1,4 +1,3 @@
-
 <?php
 
 /**
@@ -141,23 +140,23 @@ $params = array_diff_key( ['d_name' => $this->productItem->getName( 'url' ), 'd_
 
 
 ?>
-
-
-<div class="sardes-product-var__item">
-   <i class="fal fa-share-alt"></i> 
-        <ul class="product-social">
-		<?php foreach( $list as $entry ) : $default = ( isset( $urls[$entry] ) ? $urls[$entry] : null ); ?>
-		<?php if( ( $link = $this->config( 'client/html/catalog/social/url/' . $entry, $default ) ) !== null ) : ?>
-            <li>
-				<a href="<?= $enc->attr( sprintf( $link,
+<div class="catalog-social kenne-social_link">
+	<ul>
+<?php 
+$icons = array('facebook'=>'fa-facebook-square','twitter'=>'fa-twitter','pinterest'=>'fa-pinterest');
+foreach( $list as $entry ) : $default = ( isset( $urls[$entry] ) ? $urls[$entry] : null ); ?>
+	<?php if( ( $link = $this->config( 'client/html/catalog/social/url/' . $entry, $default ) ) !== null ) : ?>
+		<li><a class=""
+			href="<?= $enc->attr( sprintf( $link,
 				$enc->url( $this->url( $detailTarget, $detailController, $detailAction, $params, [], $detailConfig ) ),
 				$enc->url( $this->productItem->getName() ),
 				$enc->url( $this->content( $this->productItem->getRefItems( 'media', 'default', 'default' )->getUrl()->first() ) )
-				) ); ?>">
-				<i class="fab fa-<?= $enc->attr( $entry ); ?> "title="<?= $enc->attr( $entry ); ?>" target="_blank"></i>
-				</a>
-			</li>
-		<?php endif; ?>
-		<?php endforeach; ?>
-		</ul>
+			) ); ?>"
+			title="<?= $enc->attr( $entry ); ?>"
+			target="_blank" data-toggle="tooltip" target="_blank" title="" data-original-title="<?= $enc->attr( $entry ); ?>"
+		><i class="fa <?= @$icons[$enc->attr( $entry )]; ?>"></i></a></li>
+
+	<?php endif; ?>
+<?php endforeach; ?>
+</ul>
 </div>

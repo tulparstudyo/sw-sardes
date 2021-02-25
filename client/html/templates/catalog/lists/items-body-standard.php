@@ -17,7 +17,7 @@ $enc = $this->encoder();
  * variants and product bundles. By default, also optional attributes are
  * displayed if they have been associated to a product.
  *
- * **Note:** To fetch the necessary product variants, you have to extend the
+ * '''Note:''' To fetch the necessary product variants, you have to extend the
  * list of domains for "client/html/catalog/lists/domains", e.g.
  *
  *  client/html/catalog/lists/domains = array( 'attribute', 'media', 'price', 'product', 'text' )
@@ -44,44 +44,23 @@ $listConfig = $this->config( 'client/html/catalog/lists/url/config', [] );
  * @category Developer
  */
 $infiniteScroll = $this->config( 'client/html/catalog/lists/infinite-scroll', false );
-$products = $this->get( 'listProductItems', map() );
+
 
 ?>
 <?php $this->block()->start( 'catalog/lists/items' ); ?>
-<div class="product-tab-area">
-    <div class="tab-content tab-animate-zoom">
-        <div class="tab-pane show active shop-grid" id="sort-grid">
-            <div class="row">
-                <?php foreach($products as $product){ ?>
-                <div class="col-md-4 col-12"> <?php echo $this->partial ( $this->config( 'client/html/common/partials/product', 'common/partials/product-standard' ),
-                    array(
-                        'require-stock' => ( bool )$this->config( 'client/html/basket/require-stock', true ),
-                        'basket-add' => $this->config( 'client/html/catalog/product/basket-add', false ),
-                        'product' => $product,
-                    )
-                );
-                ?> </div>
-                <?php } ?>
-            </div>
-        </div>
-        <div class="tab-pane shop-list" id="sort-list">
-            <div class="row"> 
-                <!-- Start Single List Product -->
-                <?php foreach($products as $product){ ?>
-                <div class="col-12"> 
-                    <?php echo $this->partial ( $this->config( 'client/html/common/partials/product', 'common/partials/product-list-standard' ),
-                    array(
-                        'require-stock' => ( bool )$this->config( 'client/html/basket/require-stock', true ),
-                        'basket-add' => $this->config( 'client/html/catalog/product/basket-add', false ),
-                        'product' => $product,
-                    )
-                );
-                ?> </div>
-                <?php } ?>
-                <!-- End Single List Product --> 
-            </div>
-        </div>
-    </div>
+<div class="catalog-list-items shop-product-wrap grid row grid gridview-3" data-infinite-url="<?= $infiniteScroll && $this->get( 'listPageNext', 0 ) > $this->get( 'listPageCurr', 0 ) ? $this->url( $listTarget, $listController, $listAction, array( 'l_page' => $this->get( 'listPageNext' ) ) + $this->get( 'listParams', [] ), [], $listConfig ) : '' ?>">
+
+	<?= $this->partial(
+		$this->config( 'client/html/common/partials/products', 'common/partials/product-standard' ),
+		array(
+			'require-stock' => (int) $this->config( 'client/html/basket/require-stock', true ),
+			'basket-add' => $this->config( 'client/html/catalog/lists/basket-add', false ),
+			'productItems' => $this->get( 'itemsProductItems', map() ),
+			'products' => $this->get( 'listProductItems', map() ),
+			'position' => $this->get( 'itemPosition' ),
+		)
+	); ?>
+
 </div>
 <?php $this->block()->stop(); ?>
 <?= $this->block()->get( 'catalog/lists/items' ); ?>
