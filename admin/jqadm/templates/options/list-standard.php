@@ -172,17 +172,6 @@ foreach ( $this->get( 'itemTypes', [] ) as $typeItem ) {
         <h2>Header</h2>
         <div class="col-md-12 home-section">
           <h4>Header</h4>
-          <div class="form-group row">
-            <label class="col-sm-4 form-control-label help">Header Type</label>
-            <div class="col-sm-8 header-type">
-            <label class="text-left">
-            <input type="radio" name="option[header_type]" value="standard" <?php if(isset($this->items['header_type'])) echo is_selected($this->items, 'header_type', 'standard')?>> Standard<img style="max-width:100%" src="<?=sardes_url('assets\img\header\header-standard.png')?>">
-            </label>
-            <label class="text-left">
-            <input type="radio" name="option[header_type]" value="clear" <?php if(isset($this->items['header_type'])) echo is_selected($this->items, 'header_type', 'clear')?>> Clear<img style="max-width:100%" src="<?=sardes_url('assets\img\header\header-clear.png')?>">
-            </label>
-            </div>
-          </div>
           <div class="form-group row ">
             <label class="col-sm-4 form-control-label help">Show Language Selector</label>
             <div class="col-sm-8">
@@ -292,38 +281,17 @@ foreach ( $this->get( 'itemTypes', [] ) as $typeItem ) {
             </div>
           </div>
           <div class="form-group row ">
-            <label class="col-sm-4 form-control-label help">Show Top Categories</label>
+            <label class="col-sm-4 form-control-label help">Show Featured Products</label>
             <div class="col-sm-8">
-              <input type="hidden" name="option[show_top_categories]"  value="0">
-              <input type="checkbox" name="option[show_top_categories]"  value="1" <?=is_checked($this->items, 'show_top_categories')?> class="item-label">
+              <input type="hidden" name="option[show_featured_products]"  value="0">
+              <input type="checkbox" name="option[show_featured_products]"  value="1" <?=is_checked($this->items, 'show_featured_products')?> class="item-label">
             </div>
           </div>
           <div class="form-group row ">
-            <label class="col-sm-4 form-control-label help">Show Top Products</label>
+            <label class="col-sm-4 form-control-label help">Show Recommended Products</label>
             <div class="col-sm-8">
-              <input type="hidden" name="option[show_top_products]"  value="0">
-              <input type="checkbox" name="option[show_top_products]"  value="1" <?=is_checked($this->items, 'show_top_products')?> class="item-label">
-            </div>
-          </div>
-          <div class="form-group row ">
-            <label class="col-sm-4 form-control-label help">Show New Products</label>
-            <div class="col-sm-8">
-              <input type="hidden" name="option[show_new_products]"  value="0">
-              <input type="checkbox" name="option[show_new_products]"  value="1" <?=is_checked($this->items, 'show_new_products')?> class="item-label">
-            </div>
-          </div>
-          <div class="form-group row ">
-            <label class="col-sm-4 form-control-label help">Show Our Latest News</label>
-            <div class="col-sm-8">
-              <input type="hidden" name="option[show_latest_news]"  value="0">
-              <input type="checkbox" name="option[show_latest_news]"  value="1" <?=is_checked($this->items, 'show_latest_news')?> class="item-label">
-            </div>
-          </div>
-          <div class="form-group row ">
-            <label class="col-sm-4 form-control-label help">Show Our Client Say</label>
-            <div class="col-sm-8">
-              <input type="hidden" name="option[show_client_says]"  value="0">
-              <input type="checkbox" name="option[show_client_says]"  value="1" <?=is_checked($this->items, 'show_client_says')?> class="item-label">
+              <input type="hidden" name="option[show_recommended_products]"  value="0">
+              <input type="checkbox" name="option[show_recommended_products]"  value="1" <?=is_checked($this->items, 'show_recommended_products')?> class="item-label">
             </div>
           </div>
           <div class="form-group row ">
@@ -331,13 +299,6 @@ foreach ( $this->get( 'itemTypes', [] ) as $typeItem ) {
             <div class="col-sm-8">
               <input type="hidden" name="option[show_subscribe_form]"  value="0">
               <input type="checkbox" name="option[show_subscribe_form]"  value="1" <?=is_checked($this->items, 'show_subscribe_form')?> class="item-label">
-            </div>
-          </div>
-          <div class="form-group row ">
-            <label class="col-sm-4 form-control-label help">Show Logo Slider</label>
-            <div class="col-sm-8">
-              <input type="hidden" name="option[show_logo_slider]"  value="0">
-              <input type="checkbox" name="option[show_logo_slider]"  value="1" <?=is_checked($this->items, 'show_logo_slider')?> class="item-label">
             </div>
           </div>
         </div>
