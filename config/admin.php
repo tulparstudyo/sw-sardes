@@ -2,7 +2,7 @@
 return [
       'jqadm' => [
         'navbar' => [
-            'swordbros'=>['swordbros/sardes', 'swordbros/slider', 'swordbros/blog']
+            'swordbros'=>['swordbros/sardes', 'swordbros/slider']
          ],
         'resource' =>[
             'swordbros' => [
