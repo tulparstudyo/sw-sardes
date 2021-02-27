@@ -31,21 +31,6 @@ class Standard
 	public function addData( \Aimeos\MW\View\Iface $view ) : \Aimeos\MW\View\Iface
 	{
 
-/*
-		$langManager = \Aimeos\MShop::create( $context, 'locale/language' );
-		$view->langItems = $langManager->searchItems( $langManager->createSearch( true ) );
-
-		$ds = DIRECTORY_SEPARATOR;
-
-		$view->itemDecorators = $this->getClassNames( 'MShop' . $ds . 'Sardes' . $ds . 'Provider' . $ds . 'Decorator' );
-		$view->itemProviders = [
-			'delivery' => $this->getClassNames( 'MShop' . $ds . 'Sardes' . $ds . 'Provider' . $ds . 'Delivery' ),
-			'payment' => $this->getClassNames( 'MShop' . $ds . 'Sardes' . $ds . 'Provider' . $ds . 'Payment' ),
-		];
-
-		$view->itemSubparts = $this->getSubClientNames();
-		$view->itemTypes = $this->getTypeItems();
-*/
 		return $view;
 	}
 
@@ -58,31 +43,6 @@ class Standard
 	public function copy() : ?string
 	{
 		$view = $this->getObject()->addData( $this->getView() );
-/*
-		try
-		{
-			if( ( $id = $view->param( 'id' ) ) === null ) {
-				throw new \Aimeos\Admin\JQAdm\Exception( sprintf( 'Required parameter "%1$s" is missing', 'id' ) );
-			}
-
-			$manager = \Aimeos\MShop::create( $this->getContext(), 'sardes' );
-
-			$view->item = $manager->getItem( $id, $this->getDomains() );
-			$view->itemAttributes = $this->getConfigAttributes( $view->item );
-			$view->itemData = $this->toArray( $view->item, true );
-			$view->itemBody = '';
-
-			foreach( $this->getSubClients() as $idx => $client )
-			{
-				$view->tabindex = ++$idx + 1;
-				$view->itemBody .= $client->copy();
-			}
-		}
-		catch( \Exception $e )
-		{
-			$this->report( $e, 'copy' );
-		}
-*/
 		return $this->render( $view );
 	}
 
@@ -95,31 +55,6 @@ class Standard
 	public function create() : ?string
 	{
 		$view = $this->getObject()->addData( $this->getView() );
-/*
-		try
-		{
-			$data = $view->param( 'item', [] );
-
-			if( !isset( $view->item ) ) {
-				$view->item = \Aimeos\MShop::create( $this->getContext(), 'sardes' )->createItem();
-			}
-
-			$data['sardes.siteid'] = $view->item->getSiteId();
-
-			$view->itemData = array_replace_recursive( $this->toArray( $view->item ), $data );
-			$view->itemBody = '';
-
-			foreach( $this->getSubClients() as $idx => $client )
-			{
-				$view->tabindex = ++$idx + 1;
-				$view->itemBody .= $client->create();
-			}
-		}
-		catch( \Exception $e )
-		{
-			$this->report( $e, 'create' );
-		}
-*/
 		return $this->render( $view );
 	}
 
@@ -131,42 +66,6 @@ class Standard
 	 */
 	public function delete() : ?string
 	{
-/*
-		$view = $this->getView();
-
-		$manager = \Aimeos\MShop::create( $this->getContext(), 'sardes' );
-		$manager->begin();
-
-		try
-		{
-			if( ( $ids = $view->param( 'id' ) ) === null ) {
-				throw new \Aimeos\Admin\JQAdm\Exception( sprintf( 'Required parameter "%1$s" is missing', 'id' ) );
-			}
-
-			$search = $manager->createSearch()->setSlice( 0, count( (array) $ids ) );
-			$search->setConditions( $search->compare( '==', 'sardes.id', $ids ) );
-			$items = $manager->searchItems( $search, $this->getDomains() );
-
-			foreach( $items as $item )
-			{
-				$view->item = $item;
-
-				foreach( $this->getSubClients() as $client ) {
-					$client->delete();
-				}
-			}
-
-			$manager->deleteItems( $items->toArray() );
-			$manager->commit();
-
-			return $this->redirect( 'swordbros/sardes', 'search', null, 'delete' );
-		}
-		catch( \Exception $e )
-		{
-			$manager->rollback();
-			$this->report( $e, 'delete' );
-		}
-*/
 		return $this->search();
 	}
 
@@ -178,33 +77,7 @@ class Standard
 	 */
 	public function get() : ?string
 	{
-
 		$view = $this->getObject()->addData( $this->getView() );
-/*
-		try
-		{
-			if( ( $id = $view->param( 'id' ) ) === null ) {
-				throw new \Aimeos\Admin\JQAdm\Exception( sprintf( 'Required parameter "%1$s" is missing', 'id' ) );
-			}
-
-			$manager = \Aimeos\MShop::create( $this->getContext(), 'sardes' );
-
-			$view->item = $manager->getItem( $id, $this->getDomains() );
-			$view->itemAttributes = $this->getConfigAttributes( $view->item );
-			$view->itemData = $this->toArray( $view->item );
-			$view->itemBody = '';
-
-			foreach( $this->getSubClients() as $idx => $client )
-			{
-				$view->tabindex = ++$idx + 1;
-				$view->itemBody .= $client->get();
-			}
-		}
-		catch( \Exception $e )
-		{
-			$this->report( $e, 'get' );
-		}
-*/
 		return $this->render( $view );
 	}
 
@@ -216,12 +89,182 @@ class Standard
 	 */
 	public function save() : ?string
 	{
+        $config = $this->getContext()->getConfig();
 		$manager = \Aimeos\MShop::create( $this->getContext(), 'sardes' );
 		$view = $this->getView();
-		$manager->saveItem( $this->fromArray($view->param( 'option', [] ) )  );
-		return $this->redirect( 'swordbros/sardes', 'search');
+
+        global $request;
+        if( $request->input('sw-ajax', false)){ 
+            $location = $config->get( 'client/product/import/xlsx/location' );
+           ;
+            $file_name = 'product-import.xlsx';
+            
+            $file_path = $location .'/'.$file_name;
+            
+            if($files = (array) $this->getView()->request()->getUploadedFiles()){
+                foreach($files as $file ){
+                    $file->moveTo($file_path);
+                }
+                $this->import_xlsx($file_path);
+            }
+            return $this->redirect( 'product', 'search');
+        } else{
+            $manager->saveItem( $this->fromArray($view->param( 'option', [] ) )  );
+            return $this->redirect( 'swordbros/sardes', 'search');
+
+        }
 	}
 
+    private function import_xlsx($path){
+		$total = $errors = 0;
+		$context = $this->getContext();
+		$config = $context->getConfig();
+		$logger = $context->getLogger();
+
+
+		if( file_exists( $path ) === false ) {
+			return;
+		}
+
+        $domains = array( 'attribute', 'media', 'price', 'product', 'text' );
+		$domains = $config->get( 'client/product/import/xlsx/domains', $domains );
+		$mappings = $config->get( 'client/product/import/xlsx/mapping', $this->getDefaultMapping() );
+		$converters = $config->get( 'client/product/import/xlsx/converter', [] );
+		$maxcnt = (int) $config->get( 'client/product/import/xlsx/max-size', 1000 );
+		$skiplines = (int) $config->get( 'client/product/import/xlsx/skip-lines', 0 );
+		$strict = (bool) $config->get( 'client/product/import/xlsx/strict', true );
+		$backup = $config->get( 'client/product/import/xlsx/backup' );
+
+		if( !isset( $mappings['item'] ) || !is_array( $mappings['item'] ) )
+		{
+			$msg = sprintf( 'Required mapping key "%1$s" is missing or contains no array', 'item' );
+			throw new  \Aimeos\MShop\Exception( $msg );
+		}
+$options = array(
+    'TempDir'                    => $backup,
+    'SkipEmptyCells'             => false,
+    'ReturnDateTimeObjects'      => true,
+    'CustomFormats'              => array(20 => 'hh:mm')
+);
+
+
+		try
+		{
+			$procMappings = $mappings;
+			unset( $procMappings['item'] );
+            $manager = \Aimeos\MShop::create( $context, 'product' );
+
+			//$codePos = $this->getCodePosition( $mappings['item'] );
+			//$convlist = $this->getConverterList( $converters );
+			//$processor = $this->getProcessors( $procMappings );
+			//$container = $this->getContainer();
+			//$path = $container->getName();
+
+			$msg = sprintf( 'Started product import from "%1$s" (%2$s)', $path, __CLASS__ );
+			$logger->log( $msg, \Aimeos\MW\Logger\Base::NOTICE );
+print_r($mappings);            
+            die($path);
+$reader = new \Aspera\Spreadsheet\XLSX\Reader($options);
+$reader->open($path);
+
+foreach ($reader as $row) {
+    print_r($row);
+}
+
+$reader->close();
+            
+
+            
+            $products = $this->getProducts( array_keys( $data ), $domains );
+            print_r($products);
+            foreach( $data as $code => $list ){
+                $code = trim( $code );
+                if( isset( $products[$code] ) ) {
+                    $product = $products[$code];
+                } else {
+                    $product = $manager->createItem();
+                }
+                $type = 'select';
+                $product = $product->fromArray( $map[0], true );
+                $product = $manager->saveItem( $product->setType( $type ) );
+            }
+
+            $chunkcnt = count( $data );
+
+            $msg = 'Imported product lines from "%1$s": %2$d/%3$d (%4$s)';
+            $logger->log( sprintf( $msg, $path, $chunkcnt , $chunkcnt, __CLASS__ ), \Aimeos\MW\Logger\Base::NOTICE );
+
+            $total += $chunkcnt;
+            unset( $products, $data );
+
+
+		}
+		catch( \Exception $e )
+		{
+			$logger->log( 'Product import error: ' . $e->getMessage() . "\n" . $e->getTraceAsString() );
+			$this->mail( 'Product CSV import error', $e->getMessage() . "\n" . $e->getTraceAsString() );
+			throw new  \Aimeos\MShop\Exception( $e->getMessage() );
+		}
+
+
+	}
+	protected function getDefaultMapping() : array
+	{
+		return array(
+			'item' => array(
+				0 => 'product.code',
+				1 => 'product.label',
+				2 => 'product.type',
+				3 => 'product.status',
+			),
+			'text' => array(
+				4 => 'text.type',
+				5 => 'text.content',
+				6 => 'text.type',
+				7 => 'text.content',
+			),
+			'media' => array(
+				8 => 'media.url',
+			),
+			'price' => array(
+				9 => 'price.currencyid',
+				10 => 'price.quantity',
+				11 => 'price.value',
+				12 => 'price.taxrate',
+			),
+			'attribute' => array(
+				13 => 'attribute.code',
+				14 => 'attribute.type',
+			),
+			'product' => array(
+				15 => 'product.code',
+				16 => 'product.lists.type',
+			),
+			'property' => array(
+				17 => 'product.property.value',
+				18 => 'product.property.type',
+			),
+			'catalog' => array(
+				19 => 'catalog.code',
+				20 => 'catalog.lists.type',
+			),
+		);
+	}
+	protected function getProducts( array $codes, array $domains ) : array
+	{
+		$result = [];
+		$manager = \Aimeos\MShop::create( $this->getContext(), 'product' );
+
+		$search = $manager->createSearch();
+		$search->setConditions( $search->compare( '==', 'product.code', $codes ) );
+		$search->setSlice( 0, count( $codes ) );
+
+		foreach( $manager->searchItems( $search, $domains ) as $item ) {
+			$result[$item->getCode()] = $item;
+		}
+
+		return $result;
+	}
 
 	/**
 	 * Returns a list of resource according to the conditions
@@ -242,29 +285,7 @@ class Standard
 		//$params = $this->storeSearchParams( $view->param(), 'sardes' );
 		$view = $this->getView();
 		$view->items = $this->searchData();
-/*
-		try
-		{
-			$total = 0;
-			$manager = \Aimeos\MShop::create( $this->getContext(), 'sardes' );
-
-
-			$view->filterAttributes = $manager->getSearchAttributes( true );
-			$view->filterOperators = $search->getOperators();
-			$view->itemTypes = $this->getTypeItems();
-			$view->total = $total;
-			$view->itemBody = '';
-
-			foreach( $this->getSubClients() as $client ) {
-				$view->itemBody .= $client->search();
-			}
-		}
-		catch( \Exception $e )
-		{
-			$this->report( $e, 'search' );
-		}
-
-*/		$tplconf = 'admin/jqadm/sardes/template-list';
+        $tplconf = 'admin/jqadm/sardes/template-list';
 		$default = 'options/list-standard';
 
 		return $view->render( $view->config( $tplconf, $default ) );
@@ -401,7 +422,9 @@ class Standard
 	protected function render( \Aimeos\MW\View\Iface $view ) : string
 	{
 		$tplconf = 'admin/jqadm/sardes/template-item';
-		$default = 'ajax/item-standard';
+		$default = 'ajax/item-'.$view->param('id');
+		$view->context = $this->getContext(); 
+		$view->aimeos = $this->getAimeos();
 
 		return $view->render( $view->config( $tplconf, $default ) );
 	}
