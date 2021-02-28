@@ -32,7 +32,7 @@ class FixOptionsTable extends Migration
             Schema::create('sw_options', function (Blueprint $table) {
                 $table->char('option_group', 32);
                 $table->char('option_key',32);
-                $table->string('value');
+                $table->longText('value');
                 $table->boolean('is_json');
             });
 			echo "sw_options table created \r\n";
