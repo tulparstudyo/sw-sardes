@@ -15,7 +15,10 @@ function loadLocaleImage(input) {
 
 $(document).ready(function(){
 	$('.htmleditor').each(function(){
-		CKEDITOR.replace( this );
+		CKEDITOR.replace( this , {
+
+            allowedContent: true
+        });
 	});
 	$.get( "/admin/default/jqadm/get/swordbros/sardes/admin-bar", function( data ) {
 		$('.app-menu').prepend(data);
