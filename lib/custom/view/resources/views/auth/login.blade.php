@@ -69,6 +69,12 @@
 				   </div>
                             
 				  </div>
+          <div class="col-md-12" >
+                            @if (session('error'))
+    <div class="alert alert-danger">
+        {{ session('error') }}
+    </div>
+@endif    </div>
 				  		<div class="social-text">{{ __('auth.Or you can login with:')}}</div>
 				   
 				    <div class=" row mb-0">

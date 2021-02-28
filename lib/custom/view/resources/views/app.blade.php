@@ -39,7 +39,7 @@
 <link rel="stylesheet" href="{{ sardes_url('aimeos.css')}}">
 <!--<link rel="stylesheet" href="{{asset('/fe/assets/css/style.min.css')}}">-->
 <script src="{{ sardes_url('assets/js/vendor/jquery-1.12.4.min.js') }}"></script> 
-<script src="{{ sardes_url('theme.js') }}?_v=0.0.1"></script> 
+
 
 
 
@@ -147,6 +147,7 @@
     <?php  echo sardes_footer(); ?>
 </div>
 @yield('aimeos_scripts')
+<script src="{{ sardes_url('theme.js') }}?_v=0.0.1"></script> 
 <script type="text/javascript">
 $( ".mobile-search .search-button" ).click(function() {
 		
@@ -195,14 +196,7 @@ $( ".mobile-search .search-button" ).click(function() {
 
   <script type="text/javascript" src="https://paltoru3.tulparstudyo.net/packages/aimeos/shop/themes/jquery-ui.custom.min.js"></script>
 
-<script type="text/javascript">
-$( ".mobile-search .search-button" ).click(function() {
-		
-	$('.header-logo_area').fadeToggle();
-  $( ".catalog-filter-search .value" ).slideToggle();
 
-});
-</script>
 
 
 

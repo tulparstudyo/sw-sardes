@@ -1,12 +1,8 @@
 @extends('shop::base')
 
 @section('aimeos_header')
-    <?= $aiheader['locale/select'] ?? '' ?>
-
-    <?= $aiheader['catalog/home'] ?? '' ?>
-    
-    
-
+    <?= $aiheader['locale/select'] ?? '' ?>  
+ 
 @stop
 
 @section('aimeos_head')
@@ -28,6 +24,7 @@
 
 @section('aimeos_body')
 <?php  echo \Aimeos\Shop\Facades\Shop::get('swordbros/slider')->getBody(); ?>
+
 <?php echo sardes_widget('quadruple'); ?>
     <?= $aibody['swordbros/featured'] ?>
     <?= $aibody['swordbros/recomended'] ?>

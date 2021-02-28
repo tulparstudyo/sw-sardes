@@ -19,7 +19,7 @@ class Sardes {
         }   
 // balde files
         echo "::: BLADE FILES SETUP :::\r\n";
-        $dst = resource_path() . '/views';
+        $dst = resource_path() ;
         if(!is_dir($dst)){
             @mkdir($dst); 
         }
