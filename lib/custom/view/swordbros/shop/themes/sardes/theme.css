@@ -12167,7 +12167,7 @@ a.kenne_cont_btn {
   padding: 1% 0;
 }
 .aimeos.catalog-detail{
-  padding: 50px 0 0;
+  padding: 5px 0 0;
 }
 .catalog-detail-basic h5{
   margin-bottom: 0;
@@ -12432,6 +12432,42 @@ a.kenne_cont_btn {
 .ui-menu .ui-state-active{
 margin: 0;
 }
-.header__nav a:hover {
-  color: white;
+.footer-widgets > p > a:hover , .footer-widgets >ul > p > a:hover {
+  color: #e75480;
+  padding-left: 10px;
+}
+.login-register .alert{
+  margin-top: 20px;
+}
+
+.catalog-stage-navigator {
+  text-align: right;
+  display: block;
+  font-size: 90%;
+  margin: 0.5em;
+  padding: 0;
+}
+.catalog-stage-navigator a, .catalog-stage-navigator a:focus, .catalog-stage-navigator a:hover {
+  text-decoration: none;
+  display: inline-block;
+  padding: 0.5em 0;
+}
+.catalog-stage-navigator a.prev:before {
+  content: '◀ ';
+  white-space: pre;
+}
+
+.catalog-stage-navigator a:before {
+  content: ' | ';
+  white-space: pre;
+}
+.catalog-stage-navigator a.next:after {
+  content: ' ▶';
+  white-space: pre;
+}
+.catalog-stage-navigator .prev , .catalog-stage-navigator .prev:hover  {
+  padding-right: 0;
+}
+.catalog-stage-navigator .next , .catalog-stage-navigator .next:hover  {
+  padding-left: 0;
 }

@@ -39,7 +39,7 @@
 <link rel="stylesheet" href="{{ sardes_url('aimeos.css')}}">
 <!--<link rel="stylesheet" href="{{asset('/fe/assets/css/style.min.css')}}">-->
 <script src="{{ sardes_url('assets/js/vendor/jquery-1.12.4.min.js') }}"></script> 
-
+<script src="{{ sardes_url('theme.js') }}?_v=0.0.1"></script> 
 
 
 
@@ -60,11 +60,6 @@
 <body class="template-color-3 bg-smoke_color">
 
 <div class="main-wrapper boxed-layout bg-white_color">
-<?php if(sardes_option('css_code')) {?>
-<style>
-    <?= sardes_option('css_code') ?>
-</style>
-<?php } ?>
 
  <header class="main-header_area">
         <div class="header-top_area d-none d-lg-block">
@@ -93,17 +88,17 @@
                                                                            
                                         @else
                                       <li class="select-dropdown dropdown">@if (Auth::user()->name ) <a href="#" > {{ Auth::user()->name }}
-        <i class="ion-chevron-down"></i></a> @else <a href="#">{{ Auth::user()->name }}<i class="ion-chevron-down"></i></a>
-@endif  <ul class="ht-dropdown "> <li class="select-item">
-            <a class="nav-link" href="{{  route('aimeos_shop_account',['site'=>Route::current()->parameter('site','default'),'locale'=>Route::current()->parameter('locale','en'),'currency'=>Route::current()->parameter('currency','EUR')])}}" title="Profile">{{__('pagination.Profile')}}</a>
-        </li>
-           <li class="select-item">
-            <form id="logout" action="/logout" method="POST" style="display: none">
-                {{csrf_field()}}
-            </form>
-            <a class="nav-link" href="javascript: document.getElementById('logout').submit();">{{__('pagination.Logout')}}</a></li>
-    </ul>
-</li>
+                                            <i class="ion-chevron-down"></i></a> @else <a href="#">{{ Auth::user()->email }}<i class="ion-chevron-down"></i></a>
+                                    @endif  <ul class="ht-dropdown "> <li class="select-item">
+                                                <a class="nav-link" href="{{  route('aimeos_shop_account',['site'=>Route::current()->parameter('site','default'),'locale'=>Route::current()->parameter('locale','en'),'currency'=>Route::current()->parameter('currency','EUR')])}}" title="Profile">{{__('pagination.Profile')}}</a>
+                                            </li>
+                                            <li class="select-item">
+                                                <form id="logout" action="/logout" method="POST" style="display: none">
+                                                    {{csrf_field()}}
+                                                </form>
+                                                <a class="nav-link" href="javascript: document.getElementById('logout').submit();">{{__('pagination.Logout')}}</a></li>
+                                        </ul>
+                                    </li>
                                         @endif
                                     </ul>
                                 </div>
@@ -119,10 +114,10 @@
                     <div class="col-lg-12">
                         <div class="header-middle_nav">
 							<div class="mobile-menu_wrap d-inline-block d-lg-none">
-         <a href="#mobileMenu" class="mobile-menu_btn toolbar-btn color--white">
-         <i class="ion-android-menu"></i>
-         </a>
-      </div>
+                                <a href="#mobileMenu" class="mobile-menu_btn toolbar-btn color--white">
+                                <i class="ion-android-menu"></i>
+                                </a>
+                            </div>
                             <div class="header-logo_area"><a href="/"><img src="{{ sardes_url('assets/img/palto-logo.png')}}" alt="Header Logo" style="max-width: 200px; vertical-align: middle"></a>
                                 
 
@@ -152,7 +147,6 @@
     <?php  echo sardes_footer(); ?>
 </div>
 @yield('aimeos_scripts')
-<script src="{{ sardes_url('theme.js') }}?_v=0.0.1"></script> 
 <script type="text/javascript">
 $( ".mobile-search .search-button" ).click(function() {
 		
@@ -161,7 +155,11 @@ $( ".mobile-search .search-button" ).click(function() {
 
 });
 </script>
+
+
+
 </body>
+
 <!-- Modernizer JS --> 
 <script src="{{ sardes_url('assets/js/vendor/modernizr-2.8.3.min.js') }}"></script> 
 <!-- Popper JS --> 
@@ -195,12 +193,8 @@ $( ".mobile-search .search-button" ).click(function() {
 
 </div>
 
-  <script type="text/javascript" src="https://paltoru3.tulparstudyo.net/packages/aimeos/shop/themes/jquery-ui.custom.min.js"></script>
-<?php if(sardes_option('js_code')) {?>
-<script type="text/javascript">
-    <?= sardes_option('js_code') ?>
-</script>
-<?php } ?>
-    <div class="menu-overlay"></div>
+<script type="text/javascript" src="https://paltoru3.tulparstudyo.net/packages/aimeos/shop/themes/jquery-ui.custom.min.js"></script>
+
+<div class="menu-overlay"></div>
 </body>
 </html>

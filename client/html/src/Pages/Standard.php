@@ -240,7 +240,7 @@ class Standard
 		$domains = $config->get( 'swordbros.pages.domains', ['text', 'media'] );
 
 
-            $view->label =  $view->translate('client',$this->uid);
+        $view->label =  $view->translate('client',$this->uid);
 		if( sardes_option($this->uid)){
 			$view->content =  sardes_option($this->uid);
 		}

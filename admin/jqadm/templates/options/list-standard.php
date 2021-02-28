@@ -65,23 +65,23 @@ foreach ( $this->get( 'itemTypes', [] ) as $typeItem ) {
       <div class="navbar-content">
         <ul class="nav nav-tabs flex-md-column flex-wrap d-flex justify-content-between" role="tablist">
           <li class="nav-item basic"> <a class="nav-link active" href="#basic" data-toggle="tab" role="tab" aria-expanded="true" aria-controls="basic"> Basic</a> </li>
-          <li class="nav-item header"> <a class="nav-link" href="#header" data-toggle="tab" role="tab"> Header</a> </li>
-          <li class="nav-item home-page"> <a class="nav-link" href="#footer" data-toggle="tab" role="tab"> Footer</a> </li>
-          <li class="nav-item home-page"> <a class="nav-link" href="#home-page" data-toggle="tab" role="tab"> Home Page</a> </li>
-          <li class="nav-item legals"> <a class="nav-link" href="#legals" data-toggle="tab" role="tab"> Legals</a> </li>
-          <!--<li class="nav-item custom"> <a class="nav-link" href="#custom" data-toggle="tab" role="tab"> Custom Css/Js</a> </li>
-          <li class="nav-item socials"> <a class="nav-link" href="#socials" data-toggle="tab" role="tab"> Socials</a> </li>-->
-          <li class="nav-item help"> <a class="nav-link" href="#help" data-toggle="tab" role="tab"> Support</a> </li>
+          <li class="nav-item header"> <a class="nav-link" href="#header" data-toggle="tab" role="tab"><?= $enc->html( $this->translate( 'admin', 'Header' ) ); ?> </a> </li>
+          <li class="nav-item home-page"> <a class="nav-link" href="#footer" data-toggle="tab" role="tab"><?= $enc->html( $this->translate( 'admin', 'Footer' ) ); ?> </a> </li>
+          <li class="nav-item home-page"> <a class="nav-link" href="#home-page" data-toggle="tab" role="tab"><?= $enc->html( $this->translate( 'admin', 'Home Page' ) ); ?> </a> </li>
+          <li class="nav-item legals"> <a class="nav-link" href="#legals" data-toggle="tab" role="tab"><?= $enc->html( $this->translate( 'admin', 'Legals' ) ); ?> </a> </li>
+          <li class="nav-item pages"> <a class="nav-link" href="#pages" data-toggle="tab" role="tab"><?= $enc->html( $this->translate( 'admin', 'Pages' ) ); ?> </a> </li>
+
+          <li class="nav-item help"> <a class="nav-link" href="#help" data-toggle="tab" role="tab"><?= $enc->html( $this->translate( 'admin', 'Support' ) ); ?> </a> </li>
         </ul>
         <br>
-        <button class="btn btn-primary"><i class="fa fa-save"></i> Save</button>
+        <button class="btn btn-primary"><i class="fa fa-save"></i><?= $enc->html( $this->translate( 'admin', 'Save' ) ); ?> </button>
       </div>
     </div>
     <div class="col-md-9 item-content tab-content">
       <div id="basic" class="row item-basic tab-pane fade active show col-md-12" role="tabpanel" aria-labelledby="basic">
-        <h2>Basic</h2>
+        <h2><?= $enc->html( $this->translate( 'admin', 'Basic' ) ); ?></h2>
         <div class="col-md-12 home-section">
-          <h4>Store Info</h4>
+          <h4><?= $enc->html( $this->translate( 'admin', 'Store Info' ) ); ?></h4>
           <nav>
             <div class="nav nav-tabs nav-fill" id="tore-nav-tab" role="tablist">
               <?php if( ( $languages = $this->get( 'pageLangItems', map() ) )->count() >0 ) : ?>
@@ -141,7 +141,7 @@ foreach ( $this->get( 'itemTypes', [] ) as $typeItem ) {
 
         </div>
         <div class="col-md-12 home-section">
-          <h4>Store Social Links</h4>
+          <h4><?= $enc->html( $this->translate( 'admin', 'Store Social Links' ) ); ?></h4>
           <div class="form-group row ">
             <label class="col-sm-4 form-control-label help" >Facebook</label>
             <div class="col-sm-8">
@@ -166,28 +166,45 @@ foreach ( $this->get( 'itemTypes', [] ) as $typeItem ) {
               <input type="text" name="option[instagram_url]"  value="<?=get_option_value($this->items, 'instagram_url')?>" class="form-control item-label">
             </div>
           </div>
+          <h4><?= $enc->html( $this->translate( 'admin', 'Customize' ) ); ?></h4>
+          <div class="form-group row ">
+            <label class="col-sm-4 form-control-label help" >Javascript</label>
+            <div class="col-sm-8">
+                <strong>&lt;javascript&gt;</strong>
+              <textarea  name="option[js_code]"  class="form-control item-label"><?=get_option_value($this->items, 'js_code')?></textarea>
+                <strong>&lt;/javascript&gt;</strong>
+            </div>
+          </div>
+          <div class="form-group row ">
+            <label class="col-sm-4 form-control-label help" >Css</label>
+            <div class="col-sm-8">
+                <strong>&lt;style&gt;</strong>
+              <textarea name="option[css_code]" class="form-control item-label"><?=get_option_value($this->items, 'css_code')?></textarea>
+                <strong>&lt;/style&gt;</strong>
+            </div>
+          </div>
         </div>
       </div>
       <div id="header" class="row item-header tab-pane col-md-12" role="tabpanel" aria-labelledby="header">
-        <h2>Header</h2>
+        <h2><?= $enc->html( $this->translate( 'admin', 'Header' ) ); ?></h2>
         <div class="col-md-12 home-section">
-          <h4>Header</h4>
+          <h4><?= $enc->html( $this->translate( 'admin', 'Header' ) ); ?></h4>
           <div class="form-group row ">
-            <label class="col-sm-4 form-control-label help">Show Language Selector</label>
+            <label class="col-sm-4 form-control-label help"><?= $enc->html( $this->translate( 'admin', 'Show Language Selector' ) ); ?></label>
             <div class="col-sm-8">
               <input type="hidden" name="option[show_language_select]"  value="0">
               <input type="checkbox" name="option[show_language_select]"  value="1" <?=is_checked($this->items, 'show_language_select')?> class="item-label">
             </div>
           </div>
           <div class="form-group row ">
-            <label class="col-sm-4 form-control-label help">Show Currency Selector</label>
+            <label class="col-sm-4 form-control-label help"><?= $enc->html( $this->translate( 'admin', 'Show Currency Selector' ) ); ?></label>
             <div class="col-sm-8">
               <input type="hidden" name="option[show_currency_select]"  value="0">
               <input type="checkbox" name="option[show_currency_select]"  value="1" <?=is_checked($this->items, 'show_currency_select')?> class="item-label">
             </div>
           </div>
           <div class="form-group row ">
-            <label class="col-sm-4 form-control-label help">Show Slider</label>
+            <label class="col-sm-4 form-control-label help"><?= $enc->html( $this->translate( 'admin', 'Show Slider' ) ); ?></label>
             <div class="col-sm-8">
               <input type="hidden" name="option[show_slider]"  value="0">
               <input type="checkbox" name="option[show_slider]"  value="1" <?=is_checked($this->items, 'show_slider')?> class="item-label">
@@ -197,9 +214,9 @@ foreach ( $this->get( 'itemTypes', [] ) as $typeItem ) {
 
       </div>
       <div id="footer" class="row item-header tab-pane col-md-12" role="tabpanel" aria-labelledby="footer">
-        <h2>Footer</h2>
+        <h2><?= $enc->html( $this->translate( 'admin', 'Footer' ) ); ?></h2>
         <div class="col-md-12 home-section">
-          <h4>Footer</h4>
+          <h4><?= $enc->html( $this->translate( 'admin', 'Footer' ) ); ?></h4>
           <nav>
             <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
               <?php if( ( $languages = $this->get( 'pageLangItems', map() ) )->count() >0 ) : ?>
@@ -220,31 +237,31 @@ foreach ( $this->get( 'itemTypes', [] ) as $typeItem ) {
                   <?=$language->getLabel()?>
                   Content's Tab</h5>
                 <div class="form-group row ">
-                  <label class="col-sm-4 form-control-label help">Copyright</label>
+                  <label class="col-sm-4 form-control-label help"><?= $enc->html( $this->translate( 'admin', 'Copyright' ) ); ?></label>
                   <div class="col-sm-8">
                     <input type="text" name="option[copyright_text][<?=$language->getCode()?>]"  value="<?=get_option_value($this->items, 'copyright_text', $language->getCode())?>" class="form-control item-label">
                   </div>
                 </div>
                 <div class="form-group row ">
-                  <label class="col-sm-4 form-control-label help">Column-1</label>
+                  <label class="col-sm-4 form-control-label help"><?= $enc->html( $this->translate( 'admin', 'Column' ) ); ?>-1</label>
                   <div class="col-sm-8">
                     <textarea name="option[col_1][<?=$language->getCode()?>]"  class="form-control htmleditor form-control item-content"><?=get_option_value($this->items, 'col_1', $language->getCode())?></textarea>
                   </div>
                 </div>
                 <div class="form-group row ">
-                  <label class="col-sm-4 form-control-label help">Column-2</label>
+                  <label class="col-sm-4 form-control-label help"><?= $enc->html( $this->translate( 'admin', 'Column' ) ); ?>-2</label>
                   <div class="col-sm-8">
                     <textarea name="option[col_2][<?=$language->getCode()?>]"  class="form-control htmleditor form-control item-content"><?=get_option_value($this->items, 'col_2', $language->getCode())?></textarea>
                   </div>
                 </div>
                 <div class="form-group row ">
-                  <label class="col-sm-4 form-control-label help">Column-3</label>
+                  <label class="col-sm-4 form-control-label help"><?= $enc->html( $this->translate( 'admin', 'Column' ) ); ?>-3</label>
                   <div class="col-sm-8">
                     <textarea name="option[col_3][<?=$language->getCode()?>]"  class="form-control htmleditor form-control item-content"><?=get_option_value($this->items, 'col_3', $language->getCode())?></textarea>
                   </div>
                 </div>
                 <div class="form-group row ">
-                  <label class="col-sm-4 form-control-label help">Column-4</label>
+                  <label class="col-sm-4 form-control-label help"><?= $enc->html( $this->translate( 'admin', 'Column' ) ); ?>-4</label>
                   <div class="col-sm-8">
                     <textarea name="option[col_4][<?=$language->getCode()?>]"  class="form-control htmleditor form-control item-content"><?=get_option_value($this->items, 'col_4', $language->getCode())?></textarea>
                   </div>
@@ -257,11 +274,11 @@ foreach ( $this->get( 'itemTypes', [] ) as $typeItem ) {
         </div>
       </div>
       <div id="home-page" class="row item-home-page tab-pane col-md-12" role="tabpanel" aria-labelledby="home-page">
-        <h2>Home Page</h2>
+        <h2><?= $enc->html( $this->translate( 'admin', 'Home Page' ) ); ?></h2>
         <div class="col-md-12 home-section">
-          <h4>Body</h4>
+          <h4><?= $enc->html( $this->translate( 'admin', 'Body' ) ); ?></h4>
           <div class="form-group row ">
-            <label class="col-sm-4 form-control-label help" >Top Banner Image-1</label>
+            <label class="col-sm-4 form-control-label help" ><?= $enc->html( $this->translate( 'admin', 'Top Banner Image' ) ); ?>-1</label>
             <div class="col-sm-8 sardes-img">
               <span class="preview"><img class="image" width="64"> </span>
               <input type='file' name="files[show_top_banner_1]" class="image-file" />
@@ -269,33 +286,33 @@ foreach ( $this->get( 'itemTypes', [] ) as $typeItem ) {
             </div>
           </div>
           <div class="form-group row ">
-            <label class="col-sm-4 form-control-label help">Top Banner Image-2</label>
+            <label class="col-sm-4 form-control-label help"><?= $enc->html( $this->translate( 'admin', 'Top Banner Image' ) ); ?>-2</label>
             <div class="col-sm-8">
               <input type="text" name="option[show_top_banner_2]"  value="<?=get_option_value($this->items, 'show_top_banner_2')?>" class="form-control item-label">
             </div>
           </div>
           <div class="form-group row ">
-            <label class="col-sm-4 form-control-label help">Middle Banner Image</label>
+            <label class="col-sm-4 form-control-label help"><?= $enc->html( $this->translate( 'admin', 'Middle Banner Image' ) ); ?></label>
             <div class="col-sm-8">
               <input type="text" name="option[show_middle_banner]"  value="<?=get_option_value($this->items, 'show_middle_banner')?>" class="form-control item-label">
             </div>
           </div>
           <div class="form-group row ">
-            <label class="col-sm-4 form-control-label help">Show Featured Products</label>
+            <label class="col-sm-4 form-control-label help"><?= $enc->html( $this->translate( 'admin', 'Show Featured Products' ) ); ?></label>
             <div class="col-sm-8">
               <input type="hidden" name="option[show_featured_products]"  value="0">
               <input type="checkbox" name="option[show_featured_products]"  value="1" <?=is_checked($this->items, 'show_featured_products')?> class="item-label">
             </div>
           </div>
           <div class="form-group row ">
-            <label class="col-sm-4 form-control-label help">Show Recommended Products</label>
+            <label class="col-sm-4 form-control-label help"><?= $enc->html( $this->translate( 'admin', 'Show Recommended Products' ) ); ?></label>
             <div class="col-sm-8">
               <input type="hidden" name="option[show_recommended_products]"  value="0">
               <input type="checkbox" name="option[show_recommended_products]"  value="1" <?=is_checked($this->items, 'show_recommended_products')?> class="item-label">
             </div>
           </div>
           <div class="form-group row ">
-            <label class="col-sm-4 form-control-label help">Show Subscribe Form</label>
+            <label class="col-sm-4 form-control-label help"><?= $enc->html( $this->translate( 'admin', 'Show Subscribe Form' ) ); ?></label>
             <div class="col-sm-8">
               <input type="hidden" name="option[show_subscribe_form]"  value="0">
               <input type="checkbox" name="option[show_subscribe_form]"  value="1" <?=is_checked($this->items, 'show_subscribe_form')?> class="item-label">
@@ -303,9 +320,8 @@ foreach ( $this->get( 'itemTypes', [] ) as $typeItem ) {
           </div>
         </div>
       </div>
-
       <div id="legals" class="row item-legals tab-pane col-md-12" role="tabpanel" aria-labelledby="legals">
-        <h2>Legals Page Content</h2>
+        <h2><?= $enc->html( $this->translate( 'admin', 'Legals Page Content' ) ); ?></h2>
         <div class="col-md-12 home-section"><br>
           <nav>
             <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
@@ -351,14 +367,55 @@ foreach ( $this->get( 'itemTypes', [] ) as $typeItem ) {
           </div>
         </div>
       </div>
-      <div id="custom" class="row item-custom tab-pane col-md-12" role="tabpanel" aria-labelledby="custom">
-        <h2>Custom Css/Js</h2>
-      </div>
-      <div id="socials" class="row item-socials tab-pane col-md-12" role="tabpanel" aria-labelledby="socials">
-        <h2>Socials</h2>
+      <div id="pages" class="row item-pages tab-pane col-md-12" role="tabpanel" aria-labelledby="pages">
+        <h2><?= $enc->html( $this->translate( 'admin', 'Custom Page Content' ) ); ?></h2>
+        <div class="col-md-12 home-section"><br>
+          <nav>
+            <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+              <?php if( ( $languages = $this->get( 'pageLangItems', map() ) )->count() >0 ) : ?>
+              <?php foreach($languages as $language){ ?>
+              <a class="nav-item nav-link" id="nav-page-<?=$language->getCode()?>-tab" data-toggle="tab" href="#nav-page-<?=$language->getCode()?>" role="tab" aria-controls="nav-page-<?=$language->getCode()?>" aria-selected="true"><img src="/packages/swordbros/shop/themes/sardes/assets/img/icon/flag/icon_<?=$language->getCode()?>.png" width="24">
+              <?=$language->getCode()?>
+              </a>
+              <?php }?>
+              <?php endif; ?>
+            </div>
+          </nav>
+          <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
+            <?php if( ( $languages = $this->get( 'pageLangItems', map() ) )->count() >0 ) : ?>
+            <?php foreach($languages as $language){?>
+            <div class="tab-pane fade" id="nav-page-<?=$language->getCode()?>" role="tabpanel" aria-labelledby="nav-page-<?=$language->getCode()?>-tab">
+              <div class="tab-content clearfix">
+                <h5>
+                  <?=$language->getLabel()?>
+                  <?= $enc->html( $this->translate( 'admin', 'Page\'s Tab' ) ); ?></h5>
+                <div class="form-group row ">
+                  <label class="col-sm-4 form-control-label help"><?= $enc->html( $this->translate( 'admin', 'About Us' ) ); ?></label>
+                  <div class="col-sm-8">
+                    <textarea name="option[page_aboutus][<?=$language->getCode()?>]"  class="form-control htmleditor form-control item-content"><?=get_option_value($this->items, 'page_aboutus', $language->getCode())?></textarea>
+                  </div>
+                </div>
+                <div class="form-group row ">
+                  <label class="col-sm-4 form-control-label help"><?= $enc->html( $this->translate( 'admin', 'Help' ) ); ?></label>
+                  <div class="col-sm-8">
+                    <textarea name="option[page_help][<?=$language->getCode()?>]"  class="form-control htmleditor form-control item-content"><?=get_option_value($this->items, 'page_help', $language->getCode())?></textarea>
+                  </div>
+                </div>
+                <div class="form-group row ">
+                  <label class="col-sm-4 form-control-label help"><?= $enc->html( $this->translate( 'admin', 'Support' ) ); ?></label>
+                  <div class="col-sm-8">
+                    <textarea name="option[page_support][<?=$language->getCode()?>]"  class="form-control htmleditor form-control item-content"><?=get_option_value($this->items, 'page_support', $language->getCode())?></textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <?php }?>
+            <?php endif; ?>
+          </div>
+        </div>
       </div>
       <div id="help" class="row item-help tab-pane col-md-12" role="tabpanel" aria-labelledby="help">
-        <h2>Support</h2>
+        <h2><?= $enc->html( $this->translate( 'admin', 'Support' ) ); ?></h2>
       </div>
     </div>
   </div>

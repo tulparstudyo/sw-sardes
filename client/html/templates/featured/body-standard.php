@@ -66,6 +66,8 @@ $textTypes = $this->config( 'client/html/catalog/lists/head/text-types', array( 
  */
 
 ?>
+
+<?php if(sardes_option('show_featured_products')){?>  
 <section class="aimeos catalog-list swordbros featured">
         <div class="product-area ">
             <div class="container">
@@ -98,3 +100,4 @@ $textTypes = $this->config( 'client/html/catalog/lists/head/text-types', array( 
         </div>
 </section>
 
+<?php }?>  
