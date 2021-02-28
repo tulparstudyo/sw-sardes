@@ -7,12 +7,10 @@
  * @subpackage Jobs
  */
 
-
 namespace Aimeos\Controller\Jobs\Product\Import\Xlsx;
 
-
 /**
- * Job controller for CSV product imports.
+ * Job controller for XLSX product imports.
  *
  * @package Controller
  * @subpackage Jobs
@@ -31,7 +29,7 @@ class Standard
 	 */
 	public function getName() : string
 	{
-		return $this->getContext()->getI18n()->dt( 'controller/jobs', 'Product import CSV' );
+		return $this->getContext()->getI18n()->dt( 'controller/jobs', 'Product import XLSX' );
 	}
 
 
@@ -42,7 +40,7 @@ class Standard
 	 */
 	public function getDescription() : string
 	{
-		return $this->getContext()->getI18n()->dt( 'controller/jobs', 'Imports new and updates existing products from CSV files' );
+		return $this->getContext()->getI18n()->dt( 'controller/jobs', 'Imports new and updates existing products from Xlsx files' );
 	}
 
 
@@ -59,6 +57,7 @@ class Standard
 		$logger = $context->getLogger();
 
 		if( file_exists( $config->get( 'controller/jobs/product/import/xlsx/location' ) ) === false ) {
+            echo "controller/jobs/product/import/xlsx/location configuration not found in shop.php";
 			return;
 		}
 
@@ -79,9 +78,8 @@ class Standard
 		$skiplines = (int) $config->get( 'controller/jobs/product/import/xlsx/skip-lines', 0 );
 
 		$strict = (bool) $config->get( 'controller/jobs/product/import/xlsx/strict', true );
-
-		$backup = $config->get( 'controller/jobs/product/import/xlsx/backup' );
-
+        
+        $backup = $config->get( 'controller/jobs/product/import/xlsx/backup' );
 
 		if( !isset( $mappings['item'] ) || !is_array( $mappings['item'] ) )
 		{
@@ -98,7 +96,6 @@ class Standard
 			$convlist = $this->getConverterList( $converters );
 			$processor = $this->getProcessors( $procMappings );
 			$container = $this->getContainer();
-			//$path = $container->getName();
 
 			$msg = sprintf( 'Started product import from "%1$s" (%2$s)', $container['filename'], __CLASS__ );
 			$logger->log( $msg, \Aimeos\MW\Logger\Base::NOTICE );
@@ -132,11 +129,14 @@ class Standard
 
             $listcnt = count( $data );
             $data = $this->convertData( $convlist, $data );
+
             $products = $this->getProducts( array_keys( $data ), $domains );
+            //echo " - Exsisting Products is getting \r\n";
             $errcnt = $this->import( $products, $data, $mappings['item'], [], $processor, $strict );
+            //die('dur import');
             $chunkcnt = count( $data );
 
-            $msg = 'Imported product lines from "%1$s": %2$d/%3$d (%4$s)';
+            $msg = ' - Imported product lines from "%1$s": %2$d/%3$d (%4$s)';
             $logger->log( sprintf( $msg, $container['filename'], $chunkcnt - $errcnt, $chunkcnt, __CLASS__ ), \Aimeos\MW\Logger\Base::NOTICE );
 
             $errors += $errcnt;
@@ -147,7 +147,7 @@ class Standard
 		catch( \Exception $e )
 		{
 			$logger->log( 'Product import error: ' . $e->getMessage() . "\n" . $e->getTraceAsString() );
-			$this->mail( 'Product CSV import error', $e->getMessage() . "\n" . $e->getTraceAsString() );
+			$this->mail( 'Product XLSX import error', $e->getMessage() . "\n" . $e->getTraceAsString() );
 			throw new \Aimeos\Controller\Jobs\Exception( $e->getMessage() );
 		}
 
@@ -159,7 +159,7 @@ class Standard
 		if( $errors > 0 )
 		{
 			$msg = sprintf( 'Invalid product lines in "%1$s": %2$d/%3$d', $container['filename'], $errors, $total );
-			$this->mail( 'Product CSV import', $msg );
+			$this->mail( 'Product XLSX import', $msg );
 			throw new \Aimeos\Controller\Jobs\Exception( $msg );
 		} else {
             echo " - No errors found in $listcnt lines\r\n";
@@ -216,7 +216,7 @@ class Standard
 			}
 		}
 
-		throw new \Aimeos\Controller\Jobs\Exception( sprintf( 'No "product.code" column in CSV mapping found' ) );
+		throw new \Aimeos\Controller\Jobs\Exception( sprintf( 'No "product.code" column in XLSX mapping found' ) );
 	}
 
 
@@ -250,7 +250,7 @@ class Standard
 
 
 	/**
-	 * Imports the CSV data and creates new products or updates existing ones
+	 * Imports the XLSX data and creates new products or updates existing ones
 	 *
 	 * @param array $products List of products items implementing \Aimeos\MShop\Product\Item\Iface
 	 * @param array $data Associative list of import data as index/value pairs
@@ -288,12 +288,16 @@ class Standard
 				{
 					$type = $this->checkType( $this->getValue( $map[0], 'product.type', $product->getType() ) );
 					$map[0]['product.config'] = json_decode( $map[0]['product.config'] ?? '[]', true ) ?: [];
+                    //print_r($product->toArray());
 					$product = $product->fromArray( $map[0], true );
-					$product = $manager->saveItem( $product->setType( $type ) );
+                    //print_r($product->toArray());					$product = $manager->saveItem( $product->setType( $type ) );
+                    // $processor Aimeos\Controller\Common\Product\Import\Xlsx\Processor\Catalog\Standard
 
-					$list = $processor->process( $product, $list );
+                    echo " -- Processor :".get_class($processor)."\r\n";
+                    $list = $processor->process( $product, $list );
 
-					$product = $manager->saveItem( $product );
+
+                    $product = $manager->saveItem( $product );
 					$items[$product->getId()] = $product;
 				}
 

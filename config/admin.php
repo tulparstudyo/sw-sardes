@@ -15,10 +15,6 @@ return [
                     'groups' => ['admin', 'editor', 'super'],
                     'key' => 'SS',
                 ],
-                'blog' =>[
-                    'groups' => ['admin', 'editor', 'super'],
-                    'key' => 'SB',
-                ],
             ],
         ],
     ],

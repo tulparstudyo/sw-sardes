@@ -2,7 +2,7 @@
 $enc = $this->encoder();
 $domains = array( 'attribute', 'media', 'price', 'product', 'text' );
 
-$location = $this->config( 'client/product/export/csv/location' );
+$location = $this->config( 'client/product/export/xlsx/location' );
 
 $file_name = 'product-excel.xlsx';
     

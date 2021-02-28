@@ -89,8 +89,6 @@ class Standard
 		{
 			$this->listTypes = array_flip( $this->listTypes );
 		}
-
-
 		$manager = \Aimeos\MShop::create( $context, 'media/type' );
 
 		$search = $manager->createSearch()->setSlice( 0, 0x7fffffff );
@@ -111,6 +109,7 @@ class Standard
 	 */
 	public function process( \Aimeos\MShop\Product\Item\Iface $product, array $data ) : array
 	{
+
 		$context = $this->getContext();
 		$manager = \Aimeos\MShop::create( $context, 'media' );
 		$listManager = \Aimeos\MShop::create( $context, 'product/lists' );
@@ -133,13 +132,13 @@ class Standard
 			if( $this->checkEntry( $list ) === false ) {
 				continue;
 			}
-
 			$langId = $this->getValue( $list, 'media.languageid' );
 			$type = $this->getValue( $list, 'media.type', 'default' );
 			$listtype = $this->getValue( $list, 'product.lists.type', 'default' );
 			$urls = explode( $separator, $this->getValue( $list, 'media.url', '' ) );
 			$preview = explode( $separator, $this->getValue( $list, 'media.preview', '' ) );
 			$previews = explode( $separator, $this->getValue( $list, 'media.previews', '' ) );
+
 
 			unset( $list['media.preview'], $list['media.previews'], $list['media.url'] );
 
@@ -149,7 +148,6 @@ class Standard
 			foreach( $urls as $idx => $url )
 			{
 				$url = trim( $url );
-
 				if( isset( $listMap[$url][$type][$langId][$listtype] ) )
 				{
 					$listItem = $listMap[$url][$type][$langId][$listtype];
@@ -184,13 +182,10 @@ class Standard
 				{
 					$context->getLogger()->log( sprintf( 'Scaling image "%1$s" failed: %2$s', $url, $e->getMessage() ) );
 				}
-
 				$product->addListItem( 'media', $listItem, $refItem );
 			}
 		}
-
 		$product->deleteListItems( $listItems->toArray(), true );
-
 		return $this->getObject()->process( $product, $data );
 	}
 

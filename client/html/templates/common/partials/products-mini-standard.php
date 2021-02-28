@@ -55,21 +55,7 @@ $detailFilter = array_flip( $this->config( 'client/html/catalog/detail/url/filte
                             $this->config( 'client/html/common/partials/price', 'common/partials/price-standard' ), ['prices' => $productItem->getRefItems( 'price', null, 'default' )]); ?>
 
                         </div>
-
-                        <?php if( $productItem->getRating() > 0 ) : ?>
-						<div class="rating" itemprop="aggregateRating" itemscope="" itemtype="http://schema.org/AggregateRating">
-							<span class="stars"><?= str_repeat( '★', (int) round(  $productItem->getRating() ) ) ?></span>
-							
-							<?php /*<span class="ratings" itemprop="reviewCount"><?= (int) $this->detailProductItem->getRatings() ?></span>*/?>
-                        </div>
-                        <?php else :?>
-						<div class="rating-empty" itemprop="aggregateRating" itemscope="" itemtype="http://schema.org/AggregateRating">
-							<span class="stars"><?= str_repeat( '<i class="ion-ios-star-outline"></i>', 5 ) ?></span>
-							
-						</div>
-				
-					<?php endif ?>
-               
+                  
                     </div>
                 </div>
             </div>

@@ -650,16 +650,16 @@ class Standard
 		$sort = $view->param( 'f_sort', $config->get( 'client/html/swordbros/recomended/sort', 'relevance' ) );
 		$size = min( max( $view->param( 'l_size', $size ), 1 ), 100 );
 		$page = min( max( $view->param( 'l_page', 1 ), 1 ), $pages );
-		$category = $config->get( 'client/html/swordbros/recomended/category', '8' );
+		$category = $config->get( 'client/html/swordbros/recomended/category', '1' );
 
 		$products = \Aimeos\Controller\Frontend::create( $context, 'product' )
 			->sort( $sort ) // prioritize user sorting over the sorting through relevance and category
-			->category( [$category] )
+			->category( [$category] ,'recommended' )
 			->uses( $domains )
             ->slice( 0,8 )
 			->search(  );
 
-        $view->list_link = route('aimeos_shop_list', ['locale'=> \Route::current()->parameter('locale','ru'), 'currency'=> \Route::current()->parameter('currency','RUB'),  'f_catid' => 8] ); 
+        $view->list_link = route('aimeos_shop_list', ['locale'=> \Route::current()->parameter('locale','ru'), 'currency'=> \Route::current()->parameter('currency','RUB'),  'f_catid' => $category] ); 
 
 
 		// Delete cache when products are added or deleted even when in "tag-all" mode

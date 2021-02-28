@@ -79,22 +79,22 @@ $textTypes = $this->config( 'client/html/catalog/lists/head/text-types', array( 
                     <div class="col-lg-12">
                         <div class="shop-product-wrap grid gridview-3 row">
 
-	<?= $this->partial(
-		$this->config( 'client/html/common/partials/products', 'common/partials/products-mini-standard' ),
-		array(
-			'require-stock' => (int) $this->config( 'client/html/basket/require-stock', true ),
-			'basket-add' => $this->config( 'client/html/catalog/lists/basket-add', false ),
-			'productItems' => $this->get( 'itemsProductItems', map() ),
-			'products' => $this->get( 'listProductItems', map() ),
-			'reviews' => $this->get( 'reviews', map() ),
-			'position' => $this->get( 'itemPosition' ),
-		)
-	); ?>
+                        <?= $this->partial(
+                            $this->config( 'client/html/common/partials/products', 'common/partials/products-mini-standard' ),
+                            array(
+                                'require-stock' => (int) $this->config( 'client/html/basket/require-stock', true ),
+                                'basket-add' => $this->config( 'client/html/catalog/lists/basket-add', false ),
+                                'productItems' => $this->get( 'itemsProductItems', map() ),
+                                'products' => $this->get( 'listProductItems', map() ),
+                                'reviews' => $this->get( 'reviews', map() ),
+                                'position' => $this->get( 'itemPosition' ),
+                            )
+                        ); ?>
 
                         </div>
                     </div>
                 </div>
-            </div> 
+            </div>
         </div>
 </section>
 

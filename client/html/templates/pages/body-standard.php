@@ -7,5 +7,6 @@ $enc = $this->encoder();
     text-align: center;"><?= $enc->attr( $this->label ); ?></h1></div>
 
 <div class="info-body">
+
 <?= $enc->attr( $this->content ); ?></div>
 

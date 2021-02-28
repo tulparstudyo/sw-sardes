@@ -15,16 +15,9 @@ $enc = $this->encoder();
                             </div>
                             <div class="footer-widgets">
                                 <ul>
-                                    <li><a href="<?= $enc->attr( $this->url( 'about-us', null, null,[], []) ); ?>">
-                                        <?=$this->translate( 'client', 'About Us' )?>
-                                        </a></li>
-                                    <li><a href="#" class="b24-web-form-popup-btn-3">
-                                        <?=$this->translate( 'client', 'Contact Us' )?>
-                                        </a></li>
-                                        <li><a href="<?=$enc->attr( $this->url( 'blog', null, 'null', [  'blog_code'=>'terms-conditions'], [], [] ) )?>" > <?=$this->translate( 'client', 'Terms & Conditions' )?></a></li>
-                                    <li><a href="<?=$enc->attr( $this->url( 'blog', null, 'null', [ 'blog_code'=>'privacy-policy'], [], [] ) )?>">
-                                        <?=$this->translate( 'client', 'Privacy & Policy' )?>
-                                        </a></li>
+
+                                    <?php echo sardes_option('col_1')?>
+                                   
                                 </ul>
                             </div>
                         </div>
@@ -36,18 +29,8 @@ $enc = $this->encoder();
                             </div>
                             <div class="footer-widgets">
                                 <ul>
-                                    <li><a href="<?=$enc->attr( $this->url( 'login', null, 'null', ['locale'=> \Route::current()->parameter('locale','ru'), 'currency'=> \Route::current()->parameter('currency','RUB')], [], [] ) )?>">
-                                             <?=$this->translate( 'client', 'Login' )?>
-                                        </a></li>
-                                    <li><a href="<?=$enc->attr( $this->url( 'login', null, 'null', ['locale'=> \Route::current()->parameter('locale','ru'), 'currency'=> \Route::current()->parameter('currency','RUB')], [], [] ) )?>">
-                                        <?=$this->translate( 'client', 'Register' )?>
-                                        </a></li>
-                                        <li><a href="<?=$enc->attr( $this->url( 'blog', null, 'null', [ 'blog_code'=>'help'], [], [] ) )?>">
-                                        <?=$this->translate( 'client', 'Help' )?>
-                                        </a></li>
-                                    <li><a href="<?=$enc->attr( $this->url( 'blog', null, 'null', [ 'blog_code'=>'support'], [], [] ) )?>">
-                                        <?=$this->translate( 'client', 'Support' )?>
-                                        </a></li>
+                                <?php echo sardes_option('col_2')?>
+                                   
                                 </ul>
                             </div>
                         </div>
@@ -58,7 +41,7 @@ $enc = $this->encoder();
                                 </h4>
                             </div>
                             <div class="footer-widgets">
-                                <?php echo  sardes_top_categories(); ?>
+                            <?php echo sardes_option('col_3')?>
                             </div>
                         </div>
                     </div>

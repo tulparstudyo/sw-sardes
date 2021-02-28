@@ -67,6 +67,8 @@ $textTypes = $this->config( 'client/html/catalog/lists/head/text-types', array( 
 $p = $this->get( 'listProductItems', map() );
 
 ?>
+
+<?php if(sardes_option('show_recommended_products')){?>  
 <section class="aimeos catalog-list swordbros recomended">
         <div class="product-area ">
             <div class="container">
@@ -80,16 +82,16 @@ $p = $this->get( 'listProductItems', map() );
                     <div class="col-lg-12">
                         <div class="shop-product-wrap grid gridview-3 row">
 
-	<?= $this->partial(
-		$this->config( 'client/html/common/partials/products', 'common/partials/products-mini-standard' ),
-		array(
-			'require-stock' => (int) $this->config( 'client/html/basket/require-stock', true ),
-			'basket-add' => $this->config( 'client/html/catalog/lists/basket-add', false ),
-			'productItems' => $this->get( 'itemsProductItems', map() ),
-			'products' => $this->get( 'listProductItems', map() ),
-			'position' => $this->get( 'itemPosition' ),
-		)
-	); ?>
+                        <?= $this->partial(
+                            $this->config( 'client/html/common/partials/products', 'common/partials/products-mini-standard' ),
+                            array(
+                                'require-stock' => (int) $this->config( 'client/html/basket/require-stock', true ),
+                                'basket-add' => $this->config( 'client/html/catalog/lists/basket-add', false ),
+                                'productItems' => $this->get( 'itemsProductItems', map() ),
+                                'products' => $this->get( 'listProductItems', map() ),
+                                'position' => $this->get( 'itemPosition' ),
+                            )
+                        ); ?>
 
                         </div>
                     </div>
@@ -98,3 +100,5 @@ $p = $this->get( 'listProductItems', map() );
         </div>
 </section>
 
+
+<?php }?>  

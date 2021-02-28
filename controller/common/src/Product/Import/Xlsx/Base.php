@@ -12,7 +12,7 @@ namespace Aimeos\Controller\Common\Product\Import\Xlsx;
 
 
 /**
- * Common class for CSV product import job controllers and processors.
+ * Common class for XLSX product import job controllers and processors.
  *
  * @package Controller
  * @subpackage Common
@@ -21,11 +21,11 @@ class Base
 	extends \Aimeos\Controller\Jobs\Base
 {
 	/**
-	 * Converts the CSV field data using the available converter objects
+	 * Converts the XLSX field data using the available converter objects
 	 *
-	 * @param array $convlist Associative list of CSV field indexes and converter objects
-	 * @param array $data Associative list of product codes and lists of CSV field indexes and their data
-	 * @return array Associative list of CSV field indexes and their converted data
+	 * @param array $convlist Associative list of XLSX field indexes and converter objects
+	 * @param array $data Associative list of product codes and lists of XLSX field indexes and their data
+	 * @return array Associative list of XLSX field indexes and their converted data
 	 */
 	protected function convertData( array $convlist, array $data ) : array
 	{
@@ -88,7 +88,7 @@ class Base
 	/**
 	 * Returns the list of converter objects based on the given converter map
 	 *
-	 * @param array $convmap List of converter names for the values at the position in the CSV file
+	 * @param array $convmap List of converter names for the values at the position in the XLSX file
 	 * @return array Associative list of positions and converter objects
 	 */
 	protected function getConverterList( array $convmap ) : array
@@ -104,12 +104,12 @@ class Base
 
 
 	/**
-	 * Returns the rows from the CSV file up to the maximum count
+	 * Returns the rows from the XLSX file up to the maximum count
 	 *
-	 * @param \Aimeos\MW\Container\Content\Iface $content CSV content object
+	 * @param \Aimeos\MW\Container\Content\Iface $content XLSX content object
 	 * @param int $maxcnt Maximum number of rows that should be retrieved at once
 	 * @param int $codePos Column position which contains the unique product code (starting from 0)
-	 * @return array List of arrays with product codes as keys and list of values from the CSV file
+	 * @return array List of arrays with product codes as keys and list of values from the XLSX file
 	 */
 	protected function getData( \Aimeos\MW\Container\Content\Iface $content, int $maxcnt, int $codePos ) : array
 	{
@@ -128,7 +128,7 @@ class Base
 
 
 	/**
-	 * Returns the default mapping for the CSV fields to the domain item keys
+	 * Returns the default mapping for the XLSX fields to the domain item keys
 	 *
 	 * Example:
 	 *  'item' => array(
@@ -169,7 +169,7 @@ class Base
 	 */
 	protected function getDefaultMapping() : array
 	{
-		return array(
+		$mappings = array(
 			'item' => array(
 				0 => 'product.code',
 				1 => 'product.label',
@@ -183,7 +183,7 @@ class Base
 				7 => 'text.content',
 			),
 			'media' => array(
-				8 => 'media.url',
+				8 => 'media.url1',
 			),
 			'price' => array(
 				9 => 'price.currencyid',
@@ -208,14 +208,19 @@ class Base
 				20 => 'catalog.lists.type',
 			),
 		);
+		$context = $this->getContext();
+		$config = $context->getConfig();
+		$map_items = $config->get( 'controller/jobs/product/import/xlsx/map-items', [] );
+        $mappings = array_merge($mappings, $map_items);
+        return $mappings;
 	}
 
 
 	/**
-	 * Returns the mapped data from the CSV line
+	 * Returns the mapped data from the XLSX line
 	 *
-	 * @param array $data List of CSV fields with position as key and domain item key as value (mapped data is removed)
-	 * @param array $mapping List of domain item keys with the CSV field position as key
+	 * @param array $data List of XLSX fields with position as key and domain item key as value (mapped data is removed)
+	 * @param array $mapping List of domain item keys with the XLSX field position as key
 	 * @return array List of associative arrays containing the chunked properties
 	 */
 	protected function getMappedChunk( array &$data, array $mapping ) : array

@@ -12,7 +12,7 @@ namespace Aimeos\Controller\Common\Product\Import\Xlsx\Processor\Catalog;
 
 
 /**
- * Catalog processor for CSV imports
+ * Catalog processor for XLSX imports
  *
  * @package Controller
  * @subpackage Common
@@ -40,7 +40,7 @@ class Standard
 	 * Initializes the object
 	 *
 	 * @param \Aimeos\MShop\Context\Item\Iface $context Context object
-	 * @param array $mapping Associative list of field position in CSV as key and domain item key as value
+	 * @param array $mapping Associative list of field position in XLSX as key and domain item key as value
 	 * @param \Aimeos\Controller\Common\Product\Import\Xlsx\Processor\Iface $object Decorated processor
 	 */
 	public function __construct( \Aimeos\MShop\Context\Item\Iface $context, array $mapping,
@@ -95,7 +95,7 @@ class Standard
 	 * Saves the product related data to the storage
 	 *
 	 * @param \Aimeos\MShop\Product\Item\Iface $product Product item with associated items
-	 * @param array $data List of CSV fields with position as key and data as value
+	 * @param array $data List of XLSX fields with position as key and data as value
 	 * @return array List of data which hasn't been imported
 	 */
 	public function process( \Aimeos\MShop\Product\Item\Iface $product, array $data ) : array
@@ -140,7 +140,8 @@ class Standard
 
 			foreach( $map as $pos => $list )
 			{
-                // tulpar studyo
+                // tulpar studyo xml bu kısma girmedi
+
                 $list = ['catalog.code'=>'', 'catalog.lists.type'=>'default'];
 				if( $this->checkEntry( $list ) === false ) {
 					continue;
@@ -163,7 +164,7 @@ class Standard
 					$list['catalog.lists.parentid'] = $catid;
 					$list['catalog.lists.refid'] = $prodid;
 					$list['catalog.lists.domain'] = 'product';
-
+                    //echo "$catid, $listtype\r\n";
 					if( isset( $listMap[$catid][$listtype] ) )
 					{
 						$listItem = $listMap[$catid][$listtype];
@@ -179,9 +180,9 @@ class Standard
 				}
 			}
 
+// echo " - Sub process: ".get_class($this->getObject())."\r\n";
 			$listManager->deleteItems( $listItems->toArray() );
 			$data = $this->getObject()->process( $product, $data );
-
 			$manager->commit();
 		}
 		catch( \Exception $e )

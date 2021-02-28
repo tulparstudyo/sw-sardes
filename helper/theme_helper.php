@@ -120,7 +120,7 @@ if(!function_exists('sardes_options')){
 	function sardes_options(){
 		$options = [];
 		$ctx = \Aimeos\Shop\Facades\Shop::get('swordbros/sardes/widget')->getContext();
-		$ctl = new \Aimeos\Admin\JQAdm\Swordbros\sardes\Standard($ctx);
+		$ctl = new \Aimeos\Admin\JQAdm\Swordbros\Sardes\Standard($ctx);
 		if($ctl){
 			$locale = $ctx->getLocale();
 			$options['selectLanguageId'] = $locale->getLanguageId();
@@ -137,6 +137,7 @@ if(!function_exists('sardes_options')){
 if(!function_exists('sardes_option')){
 	function sardes_option($key, $lang=false){
 		$data = request()->session()->get('sardes_options', []);
+	
 		if(empty($data)) $data = sardes_options();
 		return get_option_value($data, $key, $lang);  
 	}
@@ -179,7 +180,7 @@ if(!function_exists('sardes_top_categories')){
 
 		foreach ($data->getChildren() as $main_category) {
 
-		echo '<li class="nav-item"><a href="'.route('aimeos_shop_list',array_merge( ['locale'=> \Route::current()->parameter('locale','ru'), 'currency'=> \Route::current()->parameter('currency','RUB')], ['f_name' => $main_category->getName( 'url' ), 'f_catid' => $main_category->getId()] )).'" class="nav-link">'.$main_category->getName().'</a></li>';
+		echo '<li class="nav-item"><a href="'.route('aimeos_shop_list',array_merge( ['f_name' => $main_category->getName( 'url' ), 'f_catid' => $main_category->getId()] )).'" class="nav-link">'.$main_category->getName().'</a></li>';
 
 		} 
 

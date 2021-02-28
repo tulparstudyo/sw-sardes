@@ -518,12 +518,12 @@ class Standard
 		 * @see client/html/swordbros/featured/levels
 		 * @see client/html/swordbros/featured/sort
 		 * @see client/html/swordbros/featured/pages
+		 */
 		$domains = $config->get( 'client/html/swordbros/featured/domains', $domains );
 
 		if( $view->config( 'client/html/swordbros/featured/basket-add', false ) ) {
 			$domains = array_merge_recursive( $domains, ['product' => ['default'], 'attribute'] );
 		}
-		 */
 
 		/** client/html/swordbros/featured/pages
 		 * Maximum number of product pages shown in pagination
@@ -650,15 +650,15 @@ class Standard
 		$sort = $view->param( 'f_sort', $config->get( 'client/html/swordbros/featured/sort', 'relevance' ) );
 		$size = min( max( $view->param( 'l_size', $size ), 1 ), 100 );
 		$page = min( max( $view->param( 'l_page', 1 ), 1 ), $pages );
-		$category = $config->get( 'client/html/swordbros/featured/category', '7' );
+		$category = $config->get( 'client/html/swordbros/featured/category', '1' );
 		$products = \Aimeos\Controller\Frontend::create( $context, 'product' )
 			->sort( $sort ) // prioritize user sorting over the sorting through relevance and category
-			->category( [$category], 'default', $level )
+			->category( [$category], 'featured' )
             ->slice( 0,8 )
 			->uses( $domains )
 			->search( );
 
-        $view->list_link = route('aimeos_shop_list', ['locale'=> \Route::current()->parameter('locale','ru'), 'currency'=> \Route::current()->parameter('currency','RUB'),  'f_catid' => 7] ); 
+        $view->list_link = route('aimeos_shop_list', ['f_catid' => $category] ); 
 		// Delete cache when products are added or deleted even when in "tag-all" mode
 		$this->addMetaItems( $products, $expire, $tags, ['product'] );
 

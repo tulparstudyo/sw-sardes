@@ -239,22 +239,15 @@ class Standard
 
 		$domains = $config->get( 'swordbros.pages.domains', ['text', 'media'] );
 
-		$Page = \Aimeos\Controller\Frontend::create( $context, 'service' )->compare( '==', 'service.code', $this->uid)
-			->uses( $domains )->type( $types )->sort( 'type' )->search();
-        $view->label =  '';
-        $view->content =  '';
-        if($Page){
-            foreach($Page->toArray() as $pages ){ 
-                foreach($pages->getListItems() as $page){ 
-                    $refItem = $page->getRefItem();
 
-                    if($refItem->get('text.languageid') == $context->getLocale()->getLanguageId() ){
-                        $view->label =  $refItem->get('text.label');
-                        $view->content =  $refItem->get('text.content');
-                    }
-                }
-            }
-        }
+            $view->label =  $view->translate('client',$this->uid);
+		if( sardes_option($this->uid)){
+			$view->content =  sardes_option($this->uid);
+		}
+		else{
+			$view->content = '';
+		}
+           
 
 		$this->addMetaItems( $view->serviceItems, $expire, $tags );
 

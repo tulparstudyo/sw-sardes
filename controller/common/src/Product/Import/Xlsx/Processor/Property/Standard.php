@@ -12,7 +12,7 @@ namespace Aimeos\Controller\Common\Product\Import\Xlsx\Processor\Property;
 
 
 /**
- * Product property processor for CSV imports
+ * Product property processor for XLSX imports
  *
  * @package Controller
  * @subpackage Common
@@ -37,7 +37,7 @@ class Standard
 	 * Saves the product property related data to the storage
 	 *
 	 * @param \Aimeos\MShop\Product\Item\Iface $product Product item with associated items
-	 * @param array $data List of CSV fields with position as key and data as value
+	 * @param array $data List of XLSX fields with position as key and data as value
 	 * @return array List of data which hasn't been imported
 	 */
 	public function process( \Aimeos\MShop\Product\Item\Iface $product, array $data ) : array
@@ -75,7 +75,7 @@ class Standard
 		}
 
 		$product->deletePropertyItems( $items->toArray() );
-
+        //echo " -- ".get_class($this->getObject())."\r\n";
 		return $this->getObject()->process( $product, $data );
 	}
 }
