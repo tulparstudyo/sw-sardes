@@ -47,6 +47,7 @@ $enc = $this->encoder();
                     </div>
                 </div>
                 <div class="col-lg-6"><?php echo sardes_widget('mailchimp'); ?></div>
+                <?php echo sardes_widget('bitrix24'); ?>
             </div>
         </div>
     </div>

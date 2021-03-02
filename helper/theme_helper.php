@@ -169,6 +169,18 @@ if(!function_exists('is_checked')){
 }
 
 
+if(!function_exists('sardes_catalog_list_types')){
+    function sardes_catalog_list_types(){
+        $rows = \DB::table('mshop_catalog_list_type')
+            ->where('domain', 'product')
+            ->get();
+        if($rows){
+            return $rows;
+        } else{
+            return [];
+        }
+    }
+}
 if(!function_exists('sardes_top_categories')){
 	function sardes_top_categories(){
 		$data =  \Aimeos\Shop\Facades\Catalog::uses(['text', 'media'])

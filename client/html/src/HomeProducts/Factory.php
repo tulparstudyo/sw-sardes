@@ -7,9 +7,9 @@
  * @package Client
  * @subpackage Html
  */
+ 
 
-
-namespace Aimeos\Client\Html\Swordbros\Recomended;
+namespace Aimeos\Client\Html\Swordbros\HomeProducts;
 
 
 /**
@@ -27,12 +27,12 @@ class Factory
 	 *
 	 * @param \Aimeos\MShop\Context\Item\Iface $context Shop context instance with necessary objects
 	 * @param string|null $name Client name (default: "Standard")
-	 * @return \Aimeos\Client\Html\Iface Recomended part implementing \Aimeos\Client\Html\Iface
+	 * @return \Aimeos\Client\Html\Iface HomeProducts part implementing \Aimeos\Client\Html\Iface
 	 * @throws \Aimeos\Client\Html\Exception If requested client implementation couldn't be found or initialisation fails
 	 */
 	public static function create( \Aimeos\MShop\Context\Item\Iface $context, string $name = null ) : \Aimeos\Client\Html\Iface
 	{
-		/** client/html/swordbros/recomended/name
+		/** client/html/swordbros/homeproducts/name
 		 * Class name of the used swordbros list client implementation
 		 *
 		 * Each default HTML client can be replace by an alternative imlementation.
@@ -42,15 +42,15 @@ class Factory
 		 *
 		 * For example, if the name of the default class is
 		 *
-		 *  \Aimeos\Client\Html\Swordbros\Recomended\Standard
+		 *  \Aimeos\Client\Html\Swordbros\HomeProducts\Standard
 		 *
 		 * and you want to replace it with your own version named
 		 *
-		 *  \Aimeos\Client\Html\Swordbros\Recomended\Mylist
+		 *  \Aimeos\Client\Html\Swordbros\HomeProducts\Mylist
 		 *
 		 * then you have to set the this configuration option:
 		 *
-		 *  client/html/swordbros/recomended/name = Mylist
+		 *  client/html/swordbros/homeproducts/name = Mylist
 		 *
 		 * The value is the last part of your own class name and it's case sensitive,
 		 * so take care that the configuration value is exactly named like the last
@@ -66,18 +66,18 @@ class Factory
 		 * @category Developer
 		 */
 		if( $name === null ) {
-			$name = $context->getConfig()->get( 'client/html/swordbros/recomended/name', 'Standard' );
+			$name = $context->getConfig()->get( 'client/html/swordbros/homeproducts/name', 'Standard' );
 		}
 
 		$iface = '\\Aimeos\\Client\\Html\\Iface';
-		$classname = '\\Aimeos\\Client\\Html\\Swordbros\\Recomended\\' . $name;
+		$classname = '\\Aimeos\\Client\\Html\\Swordbros\\HomeProducts\\' . $name;
 
 		if( ctype_alnum( $name ) === false ) {
 			throw new \Aimeos\Client\Html\Exception( sprintf( 'Invalid characters in class name "%1$s"', $classname ) );
 		}
 
 		$client = self::createClient( $context, $classname, $iface );
-		$client = self::addClientDecorators( $context, $client, 'swordbros/recomended' );
+		$client = self::addClientDecorators( $context, $client, 'swordbros/homeproducts' );
 
 		return $client->setObject( $client );
 	}

@@ -296,21 +296,7 @@ foreach ( $this->get( 'itemTypes', [] ) as $typeItem ) {
             <div class="col-sm-8">
               <input type="text" name="option[show_middle_banner]"  value="<?=get_option_value($this->items, 'show_middle_banner')?>" class="form-control item-label">
             </div>
-          </div>
-          <div class="form-group row ">
-            <label class="col-sm-4 form-control-label help"><?= $enc->html( $this->translate( 'admin', 'Show Featured Products' ) ); ?></label>
-            <div class="col-sm-8">
-              <input type="hidden" name="option[show_featured_products]"  value="0">
-              <input type="checkbox" name="option[show_featured_products]"  value="1" <?=is_checked($this->items, 'show_featured_products')?> class="item-label">
-            </div>
-          </div>
-          <div class="form-group row ">
-            <label class="col-sm-4 form-control-label help"><?= $enc->html( $this->translate( 'admin', 'Show Recommended Products' ) ); ?></label>
-            <div class="col-sm-8">
-              <input type="hidden" name="option[show_recommended_products]"  value="0">
-              <input type="checkbox" name="option[show_recommended_products]"  value="1" <?=is_checked($this->items, 'show_recommended_products')?> class="item-label">
-            </div>
-          </div>
+          </div> 
           <div class="form-group row ">
             <label class="col-sm-4 form-control-label help"><?= $enc->html( $this->translate( 'admin', 'Show Subscribe Form' ) ); ?></label>
             <div class="col-sm-8">
@@ -318,6 +304,15 @@ foreach ( $this->get( 'itemTypes', [] ) as $typeItem ) {
               <input type="checkbox" name="option[show_subscribe_form]"  value="1" <?=is_checked($this->items, 'show_subscribe_form')?> class="item-label">
             </div>
           </div>
+            <?php foreach(sardes_catalog_list_types() as $catalog_list_type){ ?>
+          <div class="form-group row ">
+            <label class="col-sm-4 form-control-label help"><?= $enc->html( $this->translate( 'admin', 'Show '.$catalog_list_type->label.' Products' ) ); ?></label>
+            <div class="col-sm-8">
+              <input type="hidden" name="option[show_<?=$catalog_list_type->code?>_products]"  value="0">
+              <input type="checkbox" name="option[show_<?=$catalog_list_type->code?>_products]"  value="1" <?=is_checked($this->items, 'show_'.$catalog_list_type->code.'_products')?> class="item-label">
+            </div>
+          </div>
+            <?php } ?>
         </div>
       </div>
       <div id="legals" class="row item-legals tab-pane col-md-12" role="tabpanel" aria-labelledby="legals">

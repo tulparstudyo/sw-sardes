@@ -1,7 +1,7 @@
 <?php
 namespace Swordbros;
 class Sardes {
-    const  name = 'sardes';
+
     public static function composerUpdate() {
 
 // rotes files
@@ -17,7 +17,7 @@ class Sardes {
         } else{
             echo " ! $src not found \r\n";
         }   
-// blade files
+// balde files
         echo "::: BLADE FILES SETUP :::\r\n";
         $dst = resource_path() ;
         if(!is_dir($dst)){
@@ -30,27 +30,14 @@ class Sardes {
         } else{
             echo " ! $src not found \r\n";
         }   
-// ai-client-html files replace
-        echo "::: ai-client-html FILES REPLACE :::\r\n";
-        $dst = base_path() . '/ext';
-        if(!is_dir($dst)){
-            @mkdir($dst); 
-        }
-        $src = dirname( __FILE__ ) . '/../view/ext';
-        if(is_dir($src)){
-            self::recurse_copy($src, $dst);
-            echo " - Required files copied to $dst \r\n";
-        } else{
-            echo " ! $src not found \r\n";
-        }   
-// theme package files
+// theme files
         echo "::: PUBLIC FILES SETUP :::\r\n";
         $dst = public_path() . '/packages/swordbros';
         if(!is_dir($dst)){
             @mkdir($dst); 
         }
         $src = dirname( __FILE__ ) . '/../view/swordbros';
-        if(is_dir($dst.'/shop/themes/'.self::name)){
+        if(is_dir($dst.'/shop/themes/sardes')){
             echo "$dst allready exists \r\n";
         } else{
             if(is_dir($src)){
