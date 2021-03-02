@@ -89,15 +89,16 @@ class Standard
 	 */
 	public function save() : ?string
 	{
-        $config = $this->getContext()->getConfig();
-		$manager = \Aimeos\MShop::create( $this->getContext(), 'sardes' );
+        $context = $this->getContext();
+        $config = $context->getConfig();
+		$manager = \Aimeos\MShop::create( $context, 'sardes' );
 		$view = $this->getView();
 
         global $request;
         if( $request->input('sw-ajax', false)){ 
             $location = $config->get( 'client/product/import/xlsx/location' );
            ;
-            $file_name = 'product-import.xlsx';
+            $file_name = 'product-import-1.xlsx';
             
             $file_path = $location .'/'.$file_name;
             
@@ -105,165 +106,16 @@ class Standard
                 foreach($files as $file ){
                     $file->moveTo($file_path);
                 }
-                $this->import_xlsx($file_path);
+                $Xlsx = new \Aimeos\Controller\Jobs\Product\Import\Xlsx\Standard($context, $this->getAimeos());
+                $Xlsx->run();
             }
+            $context->getSession()->set( 'info', [$context->getI18n()->dt( 'admin', 'Items imported successfully' )] ); 
             return $this->redirect( 'product', 'search');
         } else{
             $manager->saveItem( $this->fromArray($view->param( 'option', [] ) )  );
             return $this->redirect( 'swordbros/sardes', 'search');
 
         }
-	}
-
-    private function import_xlsx($path){
-		$total = $errors = 0;
-		$context = $this->getContext();
-		$config = $context->getConfig();
-		$logger = $context->getLogger();
-
-
-		if( file_exists( $path ) === false ) {
-			return;
-		}
-
-        $domains = array( 'attribute', 'media', 'price', 'product', 'text' );
-		$domains = $config->get( 'client/product/import/xlsx/domains', $domains );
-		$mappings = $config->get( 'client/product/import/xlsx/mapping', $this->getDefaultMapping() );
-		$converters = $config->get( 'client/product/import/xlsx/converter', [] );
-		$maxcnt = (int) $config->get( 'client/product/import/xlsx/max-size', 1000 );
-		$skiplines = (int) $config->get( 'client/product/import/xlsx/skip-lines', 0 );
-		$strict = (bool) $config->get( 'client/product/import/xlsx/strict', true );
-		$backup = $config->get( 'client/product/import/xlsx/backup' );
-
-		if( !isset( $mappings['item'] ) || !is_array( $mappings['item'] ) )
-		{
-			$msg = sprintf( 'Required mapping key "%1$s" is missing or contains no array', 'item' );
-			throw new  \Aimeos\MShop\Exception( $msg );
-		}
-$options = array(
-    'TempDir'                    => $backup,
-    'SkipEmptyCells'             => false,
-    'ReturnDateTimeObjects'      => true,
-    'CustomFormats'              => array(20 => 'hh:mm')
-);
-
-
-		try
-		{
-			$procMappings = $mappings;
-			unset( $procMappings['item'] );
-            $manager = \Aimeos\MShop::create( $context, 'product' );
-
-			//$codePos = $this->getCodePosition( $mappings['item'] );
-			//$convlist = $this->getConverterList( $converters );
-			//$processor = $this->getProcessors( $procMappings );
-			//$container = $this->getContainer();
-			//$path = $container->getName();
-
-			$msg = sprintf( 'Started product import from "%1$s" (%2$s)', $path, __CLASS__ );
-			$logger->log( $msg, \Aimeos\MW\Logger\Base::NOTICE );
-print_r($mappings);            
-            die($path);
-$reader = new \Aspera\Spreadsheet\XLSX\Reader($options);
-$reader->open($path);
-
-foreach ($reader as $row) {
-    print_r($row);
-}
-
-$reader->close();
-            
-
-            
-            $products = $this->getProducts( array_keys( $data ), $domains );
-            print_r($products);
-            foreach( $data as $code => $list ){
-                $code = trim( $code );
-                if( isset( $products[$code] ) ) {
-                    $product = $products[$code];
-                } else {
-                    $product = $manager->createItem();
-                }
-                $type = 'select';
-                $product = $product->fromArray( $map[0], true );
-                $product = $manager->saveItem( $product->setType( $type ) );
-            }
-
-            $chunkcnt = count( $data );
-
-            $msg = 'Imported product lines from "%1$s": %2$d/%3$d (%4$s)';
-            $logger->log( sprintf( $msg, $path, $chunkcnt , $chunkcnt, __CLASS__ ), \Aimeos\MW\Logger\Base::NOTICE );
-
-            $total += $chunkcnt;
-            unset( $products, $data );
-
-
-		}
-		catch( \Exception $e )
-		{
-			$logger->log( 'Product import error: ' . $e->getMessage() . "\n" . $e->getTraceAsString() );
-			$this->mail( 'Product CSV import error', $e->getMessage() . "\n" . $e->getTraceAsString() );
-			throw new  \Aimeos\MShop\Exception( $e->getMessage() );
-		}
-
-
-	}
-	protected function getDefaultMapping() : array
-	{
-		return array(
-			'item' => array(
-				0 => 'product.code',
-				1 => 'product.label',
-				2 => 'product.type',
-				3 => 'product.status',
-			),
-			'text' => array(
-				4 => 'text.type',
-				5 => 'text.content',
-				6 => 'text.type',
-				7 => 'text.content',
-			),
-			'media' => array(
-				8 => 'media.url',
-			),
-			'price' => array(
-				9 => 'price.currencyid',
-				10 => 'price.quantity',
-				11 => 'price.value',
-				12 => 'price.taxrate',
-			),
-			'attribute' => array(
-				13 => 'attribute.code',
-				14 => 'attribute.type',
-			),
-			'product' => array(
-				15 => 'product.code',
-				16 => 'product.lists.type',
-			),
-			'property' => array(
-				17 => 'product.property.value',
-				18 => 'product.property.type',
-			),
-			'catalog' => array(
-				19 => 'catalog.code',
-				20 => 'catalog.lists.type',
-			),
-		);
-	}
-	protected function getProducts( array $codes, array $domains ) : array
-	{
-		$result = [];
-		$manager = \Aimeos\MShop::create( $this->getContext(), 'product' );
-
-		$search = $manager->createSearch();
-		$search->setConditions( $search->compare( '==', 'product.code', $codes ) );
-		$search->setSlice( 0, count( $codes ) );
-
-		foreach( $manager->searchItems( $search, $domains ) as $item ) {
-			$result[$item->getCode()] = $item;
-		}
-
-		return $result;
 	}
 
 	/**

@@ -111,5 +111,3 @@ if(is_file($excel_path)){
     unlink($excel_path);
 }
 $wExcel->writeToFile($excel_path); 
-//echo "Yazıldı: $excel_path";
-die();
