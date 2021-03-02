@@ -10,7 +10,8 @@
 		"php": "~7.1",
 		"composer/installers": "^1.0",
 		"ellumilel/php-excel-writer":"^0.1",
-        "aspera/xlsx-reader":"^0.8"
+        "aspera/xlsx-reader":"^0.8",
+        "tulparstudyo/sw-xlsx":"^0.8"
 	},
 	"autoload": {
 		"psr-4": {
