@@ -1,7 +1,7 @@
 <?php
 namespace Swordbros;
 class Sardes {
-
+    const  name = 'sardes';
     public static function composerUpdate() {
 
 // rotes files
@@ -37,7 +37,7 @@ class Sardes {
             @mkdir($dst); 
         }
         $src = dirname( __FILE__ ) . '/../view/swordbros';
-        if(is_dir($dst.'/shop/themes/sardes')){
+        if(is_dir($dst.'/shop/themes/'.self::name)){
             echo "$dst allready exists \r\n";
         } else{
             if(is_dir($src)){
